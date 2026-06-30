@@ -21,6 +21,12 @@ const OVERLAY_SOURCES = {
     tms: true, opacity: 0.75,
     attribution: 'Mean Surface Temp 2020-22 – NYC City Council'
   },
+  hvi: {
+    kind: 'raster',
+    url: `${LEAP_SOURCE_RAW}/data/tiles/heat/{z}/{x}/{y}.png`,
+    tms: true, opacity: 0.75,
+    attribution: 'Heat vulnerability context – NYC City Council / DOHMH'
+  },
   pfirm: {
     kind: 'raster',
     url: `${DCP_TILES}/2015PFIRMS/MapServer/tile/{z}/{y}/{x}`,
@@ -52,6 +58,11 @@ const LAYER_DESCRIPTIONS = {
     body: 'Mean surface temperature data from 2020–2022. Warmer tones highlight neighborhoods with the greatest heat burden – typically areas with dense pavement, limited tree canopy, and lower access to cooling resources.',
     source: 'NYC City Council – Mean Surface Temperature 2020–2022'
   },
+  hvi: {
+    title: 'Heat Vulnerability Context',
+    body: 'Heat vulnerability context for teams working on cooling access, older adults, NYCHA retrofits, and tree equity. The map uses the existing surface-temperature raster as the visual proxy for HVI-linked heat burden because the HVI ranking API is tabular by ZIP/ZCTA.',
+    source: 'NYC DOHMH Heat Vulnerability Index / NYC City Council heat raster'
+  },
   pfirm: {
     title: 'PFIRM 2015 Flood Zones',
     body: 'FEMA\'s Preliminary Flood Insurance Rate Maps show regulatory flood risk zones across New York City, distinguishing between 1% annual chance (100-year) and 0.2% annual chance (500-year) floodplains based on current conditions.',
@@ -81,41 +92,207 @@ const LAYER_DESCRIPTIONS = {
     title: 'Cloudburst Flooding – Flushing',
     body: 'This layer maps areas at risk of stormwater flooding during moderate cloudburst events across the Flushing / Queens area. Blue zones indicate predicted inundation under moderate storm conditions, based on NYC stormwater flood modeling.',
     source: 'NYC Open Data – NYC Stormwater Flood Maps'
+  },
+  cloudburst: {
+    title: 'Cloudburst Flooding',
+    body: 'Areas modeled as vulnerable to stormwater flooding during moderate cloudburst events. This is the flood-risk layer used by the flood, routing, sanitation, and stormwater-siting projects.',
+    source: 'NYC Open Data – NYC Stormwater Flood Maps'
+  },
+  greenInfra: {
+    title: 'Green Infrastructure',
+    body: 'NYC DEP green infrastructure assets, including rain gardens and right-of-way stormwater practices that absorb runoff before it reaches the sewer system.',
+    source: 'NYC DEP – Green Infrastructure Map'
+  },
+  cso: {
+    title: 'Combined Sewer Context',
+    body: 'Green infrastructure assets in combined sewer drainage areas. These points show stormwater interventions most directly tied to reducing combined sewer overflow pressure during heavy rain.',
+    source: 'NYC DEP – Green Infrastructure Map'
+  },
+  surge2050: {
+    title: 'Coastal Surge 2050s',
+    body: 'Projected 100-year coastal floodplain under 2050s sea level rise scenarios, used by projects focused on sea-level rise, high tides, and coastal flood preparedness.',
+    source: 'NYC Department of City Planning – Future Floodplain 2050s'
+  },
+  surge2080: {
+    title: 'Coastal Surge 2080s',
+    body: 'Projected 100-year coastal floodplain under 2080s sea level rise scenarios, showing longer-term coastal exposure for Staten Island flood-alert and adaptation projects.',
+    source: 'NYC Department of City Planning – Future Floodplain 2080s'
+  },
+  coolIt: {
+    title: 'Cool It! Sites',
+    body: 'Cooling resources from the Cool It! NYC program, including cooling sites, misting stations, and hydrant spray-cap locations used by the heat-access teams.',
+    source: 'NYC Open Data – Cool It! NYC 2020 Cooling Sites'
+  },
+  treeCanopy: {
+    title: 'Street Tree Census',
+    body: 'Street tree census points showing local tree presence, species, and health. This gives tree-equity and urban forestry projects a closer visual match than rain-garden infrastructure alone.',
+    source: 'NYC Parks – 2015 Street Tree Census'
+  },
+  brownfields: {
+    title: 'Brownfield Sites',
+    body: 'Environmental remediation and brownfield cleanup locations, filtered around the selected neighborhood to support redevelopment and cooling-intervention siting.',
+    source: 'NYS DEC – Environmental Remediation Sites'
+  },
+  nycha: {
+    title: 'NYCHA Footprints',
+    body: 'NYCHA public housing development polygons, used as the base layer for CLIM-ALIGN and other public-housing retrofit analysis.',
+    source: 'NYC Open Data – NYCHA Public Housing Developments'
   }
 };
 
+const BASE_NEIGHBORHOOD_LAYER_DEFS = {
+  cloudburst: {
+    label: 'Cloudburst Flooding',
+    color: '#5B8DD9',
+    kind: 'filtered-overlay',
+    descriptionId: 'cloudburst',
+    style: { color: '#5B8DD9', weight: 1, opacity: 0.8, fillColor: '#5B8DD9', fillOpacity: 0.55 }
+  },
+  greenInfra: {
+    label: 'Green Infrastructure',
+    color: '#22c55e',
+    kind: 'point',
+    descriptionId: 'greenInfra',
+    endpoint: 'https://data.cityofnewyork.us/resource/df32-vzax.geojson',
+    geometryField: 'the_geom',
+    where: "(asset_type='Rain Garden' OR asset_type='ROWRG')",
+    limit: 500,
+    circleOptions: { radius: 5, fillColor: '#22c55e', color: '#16a34a', weight: 1.5, opacity: 1, fillOpacity: 0.9 }
+  },
+  cso: {
+    label: 'CSO Context',
+    color: '#6366f1',
+    kind: 'point',
+    descriptionId: 'cso',
+    endpoint: 'https://data.cityofnewyork.us/resource/df32-vzax.geojson',
+    geometryField: 'the_geom',
+    where: "sewer_type='Combined'",
+    limit: 1000,
+    circleOptions: { radius: 4, fillColor: '#6366f1', color: '#4338ca', weight: 1, opacity: 1, fillOpacity: 0.7 }
+  },
+  surge2050: {
+    label: 'Coastal Surge 2050s',
+    color: '#1B7FC4',
+    kind: 'overlay',
+    overlayId: 'surge2050',
+    descriptionId: 'surge2050'
+  },
+  surge2080: {
+    label: 'Coastal Surge 2080s',
+    color: '#0A3F6B',
+    kind: 'overlay',
+    overlayId: 'surge2080',
+    descriptionId: 'surge2080'
+  },
+  hvi: {
+    label: 'Heat Vulnerability',
+    color: '#E85D04',
+    kind: 'overlay',
+    overlayId: 'hvi',
+    descriptionId: 'hvi'
+  },
+  coolIt: {
+    label: 'Cool It! Sites',
+    color: '#00A6A6',
+    kind: 'point',
+    descriptionId: 'coolIt',
+    endpoint: 'https://data.cityofnewyork.us/resource/h2bn-gu9k.geojson',
+    latField: 'y',
+    lngField: 'x',
+    limit: 1000,
+    circleOptions: { radius: 5, fillColor: '#00A6A6', color: '#047878', weight: 1.5, opacity: 1, fillOpacity: 0.85 }
+  },
+  treeCanopy: {
+    label: 'Street Trees',
+    color: '#2F7D32',
+    kind: 'point',
+    descriptionId: 'treeCanopy',
+    endpoint: 'https://data.cityofnewyork.us/resource/uvpi-gqnh.geojson',
+    latField: 'latitude',
+    lngField: 'longitude',
+    where: "status='Alive'",
+    limit: 1500,
+    circleOptions: { radius: 3, fillColor: '#2F7D32', color: '#1B5E20', weight: 0.8, opacity: 0.9, fillOpacity: 0.65 }
+  },
+  brownfields: {
+    label: 'Brownfield Sites',
+    color: '#8B5A2B',
+    kind: 'point',
+    descriptionId: 'brownfields',
+    endpoint: 'https://data.ny.gov/resource/c6ci-rzpg.geojson',
+    useBounds: false,
+    where: "program_type='BCP'",
+    limit: 5000,
+    circleOptions: { radius: 5, fillColor: '#8B5A2B', color: '#5D3918', weight: 1.3, opacity: 1, fillOpacity: 0.82 }
+  },
+  nycha: {
+    label: 'NYCHA Footprints',
+    color: '#C8373A',
+    kind: 'geojson',
+    descriptionId: 'nycha',
+    endpoint: 'https://data.cityofnewyork.us/resource/phvi-damg.geojson',
+    limit: 1000,
+    style: { color: '#C8373A', weight: 1.5, opacity: 0.9, fillColor: '#C8373A', fillOpacity: 0.28 }
+  }
+};
+
+function nhoodLayer(neighborhoodId, baseId) {
+  const base = BASE_NEIGHBORHOOD_LAYER_DEFS[baseId];
+  return { ...base, id: `${neighborhoodId}--${baseId}`, baseId };
+}
+
 const NEIGHBORHOOD_LAYERS = {
+  'east-harlem': [
+    nhoodLayer('east-harlem', 'coolIt'),
+    nhoodLayer('east-harlem', 'hvi'),
+    nhoodLayer('east-harlem', 'treeCanopy'),
+    nhoodLayer('east-harlem', 'greenInfra'),
+    nhoodLayer('east-harlem', 'cloudburst'),
+    nhoodLayer('east-harlem', 'cso')
+  ],
+  soundview: [
+    nhoodLayer('soundview', 'cloudburst'),
+    nhoodLayer('soundview', 'greenInfra'),
+    nhoodLayer('soundview', 'hvi'),
+    nhoodLayer('soundview', 'brownfields')
+  ],
   flushing: [
-    {
-      id: 'flushing-cloudburst',
-      label: 'Cloudburst Flooding',
-      color: '#5B8DD9',
-      kind: 'filtered-overlay',
-      style: { color: '#5B8DD9', weight: 1, opacity: 0.8, fillColor: '#5B8DD9', fillOpacity: 0.55 }
-    },
-    {
-      id: 'flushing-rain-gardens',
-      label: 'Rain Gardens',
-      color: '#22c55e',
-      kind: 'point',
-      fetchUrl: "https://data.cityofnewyork.us/resource/df32-vzax.geojson?$where=within_box(the_geom%2C40.78%2C-73.84%2C40.74%2C-73.78)%20AND%20(asset_type%3D'Rain%20Garden'%20OR%20asset_type%3D'ROWRG')&$limit=200",
-      circleOptions: { radius: 5, fillColor: '#22c55e', color: '#16a34a', weight: 1.5, opacity: 1, fillOpacity: 0.9 }
-    },
-    {
-      id: 'flushing-cso',
-      label: 'Combined Sewer Overflow',
-      color: '#6366f1',
-      kind: 'point',
-      fetchUrl: "https://data.cityofnewyork.us/resource/df32-vzax.geojson?$where=within_box(the_geom%2C40.78%2C-73.84%2C40.74%2C-73.78)%20AND%20sewer_type%3D'Combined'&$limit=2000",
-      circleOptions: { radius: 4, fillColor: '#6366f1', color: '#4338ca', weight: 1, opacity: 1, fillOpacity: 0.7 }
-    }
+    nhoodLayer('flushing', 'cloudburst'),
+    nhoodLayer('flushing', 'greenInfra'),
+    nhoodLayer('flushing', 'cso'),
+    nhoodLayer('flushing', 'surge2050')
+  ],
+  brownsville: [
+    nhoodLayer('brownsville', 'coolIt'),
+    nhoodLayer('brownsville', 'hvi'),
+    nhoodLayer('brownsville', 'cloudburst'),
+    nhoodLayer('brownsville', 'nycha')
+  ],
+  stapleton: [
+    nhoodLayer('stapleton', 'treeCanopy'),
+    nhoodLayer('stapleton', 'hvi'),
+    nhoodLayer('stapleton', 'cloudburst'),
+    nhoodLayer('stapleton', 'surge2050'),
+    nhoodLayer('stapleton', 'surge2080'),
+    nhoodLayer('stapleton', 'greenInfra')
   ]
 };
 
 const PROJECT_LAYER_MAP = {
-  'gorillas': 'flushing-cloudburst',
-  'hadrosaur-footprints': 'flushing-rain-gardens',
-  'king-penguins': ['flushing-rain-gardens', 'flushing-cso']
+  'african-elephants': ['east-harlem--coolIt', 'east-harlem--hvi'],
+  'alaskan-brown-bears': ['east-harlem--treeCanopy', 'east-harlem--greenInfra', 'east-harlem--cloudburst'],
+  'blue-whales': ['east-harlem--cloudburst', 'east-harlem--cso'],
+  'giant-canoes': ['soundview--cloudburst', 'soundview--greenInfra'],
+  'giant-sequoias': ['soundview--hvi', 'soundview--brownfields'],
+  'gorillas': ['flushing--cloudburst', 'flushing--cso', 'flushing--surge2050'],
+  'hadrosaur-footprints': ['flushing--greenInfra', 'flushing--cso', 'flushing--cloudburst'],
+  'king-penguins': ['flushing--greenInfra', 'flushing--cso'],
+  'komodo-dragons': ['brownsville--coolIt', 'brownsville--hvi'],
+  'megalodons': 'brownsville--cloudburst',
+  'moai-statues': ['brownsville--nycha', 'brownsville--hvi'],
+  'sperm-whales': ['stapleton--treeCanopy', 'stapleton--hvi'],
+  'stars-of-india': ['stapleton--cloudburst', 'stapleton--surge2050', 'stapleton--greenInfra'],
+  'titanosaurs': ['stapleton--cloudburst', 'stapleton--surge2050', 'stapleton--surge2080']
 };
 
 const NEIGHBORHOOD_COLORS = {
@@ -137,6 +314,7 @@ let neighborhoodLabelGroup = null;
 let overlayLayers = {};
 let cloudburst_data = null;
 let neighborhoodSpecificLayers = {};
+let clippedOverlayCleanups = {};
 
 function nhColor(id) {
   return NEIGHBORHOOD_COLORS[id] || '#888888';
@@ -176,7 +354,7 @@ function initMap() {
       });
     });
 
-  ['heat', 'pfirm', 'surge2050', 'surge2080'].forEach(key => {
+  ['heat', 'hvi', 'pfirm', 'surge2050', 'surge2080'].forEach(key => {
     const cfg = OVERLAY_SOURCES[key];
     overlayLayers[key] = L.tileLayer(cfg.url, {
       tms: cfg.tms || false,
@@ -256,21 +434,218 @@ function setupLayerToggles() {
   });
 }
 
-// ---- Flushing-only neighborhood layers ----
+// ---- Neighborhood project layers ----
+function getLayerDescription(layerId) {
+  if (LAYER_DESCRIPTIONS[layerId]) return LAYER_DESCRIPTIONS[layerId];
+  const cfg = Object.values(NEIGHBORHOOD_LAYERS).flat().find(l => l.id === layerId);
+  return cfg ? LAYER_DESCRIPTIONS[cfg.descriptionId || cfg.baseId] : null;
+}
+
+function buildSocrataUrl(cfg, polygon) {
+  if (cfg.fetchUrl) return cfg.fetchUrl;
+  const params = [];
+  const whereParts = [];
+
+  if (polygon && cfg.useBounds !== false) {
+    const bounds = L.geoJSON(polygon).getBounds();
+    const north = bounds.getNorth();
+    const south = bounds.getSouth();
+    const east = bounds.getEast();
+    const west = bounds.getWest();
+
+    if (cfg.geometryField) {
+      whereParts.push(`within_box(${cfg.geometryField},${north},${west},${south},${east})`);
+    } else if (cfg.latField && cfg.lngField) {
+      whereParts.push(`${cfg.latField} between ${south} and ${north}`);
+      whereParts.push(`${cfg.lngField} between ${west} and ${east}`);
+    }
+  }
+
+  if (cfg.where) whereParts.push(cfg.where);
+  if (whereParts.length) params.push(`$where=${encodeURIComponent(whereParts.join(' AND '))}`);
+  params.push(`$limit=${cfg.limit || 1000}`);
+
+  return `${cfg.endpoint}?${params.join('&')}`;
+}
+
+function normalizePointGeometry(data, cfg) {
+  if (!cfg.latField || !cfg.lngField) return data;
+  data.features.forEach(feature => {
+    if (feature.geometry) return;
+    const props = feature.properties || {};
+    const lat = parseFloat(props[cfg.latField]);
+    const lng = parseFloat(props[cfg.lngField]);
+    if (Number.isFinite(lat) && Number.isFinite(lng)) {
+      feature.geometry = { type: 'Point', coordinates: [lng, lat] };
+    }
+  });
+  data.features = data.features.filter(feature => feature.geometry);
+  return data;
+}
+
+function getPolygonBounds(polygon) {
+  return polygon ? L.geoJSON(polygon).getBounds() : null;
+}
+
+function neighborhoodFeature(polygon) {
+  return polygon ? { type: 'Feature', properties: {}, geometry: polygon } : null;
+}
+
+function featureCoordinates(feature) {
+  const coords = [];
+  const collect = value => {
+    if (!Array.isArray(value)) return;
+    if (typeof value[0] === 'number' && typeof value[1] === 'number') {
+      coords.push(value);
+      return;
+    }
+    value.forEach(collect);
+  };
+  collect(feature.geometry && feature.geometry.coordinates);
+  return coords;
+}
+
+function pointInNeighborhood(coord, nhoodFeature) {
+  if (!nhoodFeature || !window.turf) return true;
+  try { return turf.booleanPointInPolygon(turf.point(coord), nhoodFeature); }
+  catch (_) { return false; }
+}
+
+function featureTouchesNeighborhood(feature, nhoodFeature) {
+  if (!nhoodFeature || !feature.geometry) return true;
+  if (window.turf) {
+    try {
+      if (feature.geometry.type === 'Point') {
+        return turf.booleanPointInPolygon(feature, nhoodFeature);
+      }
+      return turf.booleanIntersects(feature, nhoodFeature);
+    } catch (_) {}
+  }
+  return featureCoordinates(feature).some(coord => pointInNeighborhood(coord, nhoodFeature));
+}
+
+function clipFeatureToNeighborhood(feature, nhoodFeature) {
+  if (!nhoodFeature || !feature.geometry) return feature;
+  if (feature.geometry.type === 'Point') {
+    return pointInNeighborhood(feature.geometry.coordinates, nhoodFeature) ? feature : null;
+  }
+  if (!window.turf) return featureTouchesNeighborhood(feature, nhoodFeature) ? feature : null;
+
+  try {
+    if (!turf.booleanIntersects(feature, nhoodFeature)) return null;
+    if (feature.geometry.type.includes('Polygon')) {
+      const clipped = turf.intersect(turf.featureCollection([feature, nhoodFeature]));
+      if (clipped) {
+        clipped.properties = feature.properties || {};
+        return clipped;
+      }
+    }
+  } catch (_) {
+    try {
+      const clipped = turf.intersect(feature, nhoodFeature);
+      if (clipped) {
+        clipped.properties = feature.properties || {};
+        return clipped;
+      }
+    } catch (__) {}
+  }
+  return featureTouchesNeighborhood(feature, nhoodFeature) ? feature : null;
+}
+
+function constrainGeoJsonToNeighborhood(data, polygon) {
+  const nhoodFeature = neighborhoodFeature(polygon);
+  if (!nhoodFeature || !data || !Array.isArray(data.features)) return data;
+  data.features = data.features
+    .map(feature => clipFeatureToNeighborhood(feature, nhoodFeature))
+    .filter(Boolean);
+  return data;
+}
+
+function polygonOuterRings(polygon) {
+  if (!polygon) return [];
+  if (polygon.type === 'Polygon') return [polygon.coordinates[0]];
+  if (polygon.type === 'MultiPolygon') return polygon.coordinates.map(poly => poly[0]);
+  return [];
+}
+
+function ringArea(ring) {
+  let sum = 0;
+  for (let i = 0; i < ring.length - 1; i++) {
+    sum += (ring[i][0] * ring[i + 1][1]) - (ring[i + 1][0] * ring[i][1]);
+  }
+  return Math.abs(sum / 2);
+}
+
+function primaryPolygonRing(polygon) {
+  return polygonOuterRings(polygon).sort((a, b) => ringArea(b) - ringArea(a))[0] || [];
+}
+
+function applyPaneClipPath(pane, polygon) {
+  const ring = primaryPolygonRing(polygon);
+  if (!pane || ring.length === 0) return;
+  const points = ring.map(coord => {
+    const point = map.latLngToLayerPoint([coord[1], coord[0]]);
+    return `${point.x}px ${point.y}px`;
+  });
+  pane.style.clipPath = `polygon(${points.join(',')})`;
+}
+
+function createBoundedOverlayLayer(cfg, polygon) {
+  const source = OVERLAY_SOURCES[cfg.overlayId];
+  if (!source) return null;
+  const paneName = `uf-pane-${cfg.id}`;
+  let pane = map.getPane(paneName);
+  if (!pane) {
+    pane = map.createPane(paneName);
+    pane.style.zIndex = 410;
+    pane.style.pointerEvents = 'none';
+  }
+  const options = {
+    pane: paneName,
+    tms: source.tms || false,
+    opacity: source.opacity,
+    attribution: source.attribution || ''
+  };
+  const bounds = getPolygonBounds(polygon);
+  if (bounds) options.bounds = bounds;
+
+  const updateClip = () => applyPaneClipPath(pane, polygon);
+  map.on('move zoom zoomend moveend resize', updateClip);
+  requestAnimationFrame(updateClip);
+  clippedOverlayCleanups[cfg.id] = () => {
+    map.off('move zoom zoomend moveend resize', updateClip);
+    pane.style.clipPath = '';
+  };
+
+  return L.tileLayer(source.url, options);
+}
+
 function fetchAndAddNeighborhoodLayer(cfg, polygon) {
   if (cfg.kind === 'filtered-overlay') {
-    addFlushingCloudburst(polygon, cfg.style);
+    addFilteredCloudburst(cfg, polygon);
     return;
   }
 
-  fetch(cfg.fetchUrl)
+  if (cfg.kind === 'overlay') {
+    if (!neighborhoodSpecificLayers[cfg.id]) {
+      neighborhoodSpecificLayers[cfg.id] = createBoundedOverlayLayer(cfg, polygon);
+    }
+    if (neighborhoodSpecificLayers[cfg.id]) neighborhoodSpecificLayers[cfg.id].addTo(map);
+    return;
+  }
+
+  const fetchUrl = buildSocrataUrl(cfg, polygon);
+  fetch(fetchUrl)
     .then(res => {
       if (!res.ok) throw new Error(`Layer fetch failed: ${res.status}`);
       return res.json();
     })
     .then(data => {
+      normalizePointGeometry(data, cfg);
+      constrainGeoJsonToNeighborhood(data, polygon);
       if (!neighborhoodSpecificLayers[cfg.id]) {
         neighborhoodSpecificLayers[cfg.id] = L.geoJSON(data, {
+          style: cfg.style,
           pointToLayer: (feature, latlng) => L.circleMarker(latlng, cfg.circleOptions)
         });
       }
@@ -279,28 +654,38 @@ function fetchAndAddNeighborhoodLayer(cfg, polygon) {
     .catch(err => console.error(`Neighborhood layer ${cfg.id}:`, err));
 }
 
-function addFlushingCloudburst(polygon, style) {
+function addFilteredCloudburst(cfg, polygon) {
   if (!cloudburst_data) {
-    // Not loaded yet — wait for it
-    setTimeout(() => addFlushingCloudburst(polygon, style), 400);
+    setTimeout(() => addFilteredCloudburst(cfg, polygon), 400);
     return;
   }
-  if (neighborhoodSpecificLayers['flushing-cloudburst']) {
-    neighborhoodSpecificLayers['flushing-cloudburst'].addTo(map);
+  if (neighborhoodSpecificLayers[cfg.id]) {
+    neighborhoodSpecificLayers[cfg.id].addTo(map);
     return;
   }
-  const bounds = L.geoJSON(polygon).getBounds();
+  const bounds = getPolygonBounds(polygon);
   const filtered = {
     type: 'FeatureCollection',
     features: cloudburst_data.features.filter(f => {
+      if (!bounds) return true;
       try { return bounds.intersects(L.geoJSON(f).getBounds()); }
       catch (_) { return false; }
     })
   };
-  neighborhoodSpecificLayers['flushing-cloudburst'] = L.geoJSON(filtered, { style }).addTo(map);
+  constrainGeoJsonToNeighborhood(filtered, polygon);
+  neighborhoodSpecificLayers[cfg.id] = L.geoJSON(filtered, { style: cfg.style }).addTo(map);
 }
 
 function removeNeighborhoodLayer(cfg) {
+  if (cfg.kind === 'overlay') {
+    const layer = neighborhoodSpecificLayers[cfg.id];
+    if (layer) map.removeLayer(layer);
+    if (clippedOverlayCleanups[cfg.id]) {
+      clippedOverlayCleanups[cfg.id]();
+      delete clippedOverlayCleanups[cfg.id];
+    }
+    return;
+  }
   const layer = neighborhoodSpecificLayers[cfg.id];
   if (layer) map.removeLayer(layer);
 }
@@ -309,7 +694,7 @@ function setLayerDescriptionVisible(layerId, visible) {
   const container = document.getElementById('uf-layer-descriptions');
   if (visible) {
     if (container.querySelector(`.uf-map-layer-desc-block[data-layer="${layerId}"]`)) return;
-    const desc = LAYER_DESCRIPTIONS[layerId];
+    const desc = getLayerDescription(layerId);
     if (!desc) return;
     const block = document.createElement('div');
     block.className = 'uf-map-layer-desc-block';
@@ -380,6 +765,7 @@ function showNeighborhoodPanel(neighborhoodId) {
   document.getElementById('uf-info-desc').textContent = nhood.description;
   document.getElementById('uf-info-quote').textContent = nhood.pullQuote;
   document.getElementById('uf-nhood-info').removeAttribute('hidden');
+  document.getElementById('uf-map-back-row').removeAttribute('hidden');
 
   showNeighborhoodLayers(neighborhoodId);
 
@@ -388,13 +774,14 @@ function showNeighborhoodPanel(neighborhoodId) {
   inner.style.gridTemplateColumns = `repeat(${Math.min(projects.length, 3)}, 1fr)`;
   inner.innerHTML = projects.map(p => {
     const hasLayer = !!PROJECT_LAYER_MAP[p.id];
+    const projectTitle = p.title || p.team;
     return `
       <div class="uf-map-project-card${p.isWinner ? ' uf-map-project-card--winner' : ''}${hasLayer ? ' uf-map-project-card--linked' : ''}"
            id="uf-nhood-card-${p.id}"
            ${hasLayer ? `onclick="onProjectCardClick('${p.id}')"` : ''}>
         ${p.isWinner ? `<span class="uf-map-winner-tag">${p.isWinnerCategory}</span>` : ''}
+        <p class="uf-map-project-title">${projectTitle}</p>
         <p class="uf-map-project-team">${p.team}</p>
-        ${p.title ? `<p class="uf-map-project-title">${p.title}</p>` : ''}
         <p class="uf-map-project-desc">${p.description}</p>
         ${p.demoAvailable ? `<span class="uf-map-demo-tag">Demo available</span>` : ''}
         ${hasLayer ? `<span class="uf-map-layer-hint">Click to explore layer &#8594;</span>` : ''}
@@ -450,6 +837,7 @@ function closeNeighborhoodPanel() {
 
   document.getElementById('uf-nhood-info').setAttribute('hidden', '');
   document.getElementById('uf-city-overview').removeAttribute('hidden');
+  document.getElementById('uf-map-back-row').setAttribute('hidden', '');
   document.getElementById('uf-nhood-projects').setAttribute('hidden', '');
   const inner = document.getElementById('uf-nhood-projects-inner');
   inner.style.gridTemplateColumns = '';

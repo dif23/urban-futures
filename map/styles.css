@@ -4,6 +4,41 @@
   margin-bottom: 16px;
 }
 
+.uf-map-back-row {
+  display: flex;
+  justify-content: flex-start;
+  margin: -4px 0 12px;
+}
+
+.uf-map-back-row[hidden] {
+  display: none;
+}
+
+.uf-map-back-row .uf-map-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  background: var(--background);
+  border: 1px solid var(--muted);
+  border-left: 4px solid var(--teal);
+  color: var(--text);
+  padding: 10px 14px 10px 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: background 0.15s, color 0.15s, transform 0.15s;
+}
+
+.uf-map-back-row .uf-map-back-btn:hover {
+  background: var(--hinted);
+  color: var(--text);
+  transform: translateY(-1px);
+}
+
+.uf-map-back-row .uf-map-back-btn:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+}
+
 .uf-map-section {
   min-height: 60vh;
   display: flex;
@@ -302,16 +337,19 @@
 }
 
 .uf-map-project-team {
-  font-size: 13px;
+  font-size: 10px;
   font-weight: 700;
-  color: var(--text);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--secondary);
   margin: 0;
 }
 
 .uf-map-project-title {
-  font-size: 14px;
-  font-style: italic;
-  color: var(--secondary);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--text);
   margin: 0;
 }
 

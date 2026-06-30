@@ -9,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;400;700&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/@turf/turf@7.2.0/turf.min.js"></script>
 <link rel="stylesheet" href="map/styles.css"/>
 <style>
   :root {
@@ -388,15 +389,16 @@
           </div>
 
           <div id="uf-nhood-info" hidden style="background-color: rgba(100, 185, 196, 0.2); padding: 20px; margin-bottom: 16px;">
-            <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 12px;">
-              <div>
-                <span id="uf-info-borough" style="font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--secondary);"></span>
-                <h3 id="uf-info-name" style="font-size: 20px; font-weight: 700; color: var(--text); margin: 4px 0 0;"></h3>
-              </div>
-              <button onclick="closeNeighborhoodPanel()" style="flex-shrink: 0; background: none; border: 1px solid var(--muted); color: var(--secondary); font-family: Inter, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; padding: 6px 12px; cursor: pointer;">&#8592; All Neighborhoods</button>
+            <div style="margin-bottom: 12px;">
+              <span id="uf-info-borough" style="font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--secondary);"></span>
+              <h3 id="uf-info-name" style="font-size: 20px; font-weight: 700; color: var(--text); margin: 4px 0 0;"></h3>
             </div>
             <p id="uf-info-desc" style="font-size: 16px; line-height: 1.5; color: var(--text); margin: 0 0 12px;"></p>
             <p id="uf-info-quote" style="font-size: 15px; line-height: 1.5; color: var(--secondary); margin: 0; font-style: italic; border-left: 3px solid var(--teal); padding-left: 12px;"></p>
+          </div>
+
+          <div id="uf-map-back-row" class="uf-map-back-row" hidden>
+            <button class="uf-map-back-btn" onclick="closeNeighborhoodPanel()">&#8592; All Neighborhoods</button>
           </div>
 
           <!-- Map -->
@@ -424,6 +426,12 @@
                       <input type="checkbox" data-layer="heat">
                       <span class="uf-map-layer-dot" style="background: #E85D04;"></span>
                       <span>Urban Heat</span>
+                    </label>
+
+                    <label class="uf-map-layer-toggle">
+                      <input type="checkbox" data-layer="hvi">
+                      <span class="uf-map-layer-dot" style="background: #E85D04;"></span>
+                      <span>Heat Vulnerability</span>
                     </label>
 
                     <label class="uf-map-layer-toggle">
