@@ -14,7 +14,7 @@ const NEIGHBORHOODS = [
     name: "Soundview",
     borough: "Bronx",
     description: "Soundview contends with stormwater flooding and gaps in green infrastructure that leave residents vulnerable during cloudbursts. Teams modeled pluvial floods and assessed heat vulnerability among aging residents, identifying sites for targeted intervention.",
-    pullQuote: "The creek doesn’t know borough boundaries – and neither should our solutions.",
+    pullQuote: "The creek doesn't know borough boundaries – and neither should our solutions.",
     coordinates: [-73.8730, 40.8170],
     color: "#1B5E8A",
     projects: ["giant-canoes", "giant-sequoias"]
@@ -44,7 +44,7 @@ const NEIGHBORHOODS = [
     name: "Stapleton",
     borough: "Staten Island",
     description: "Stapleton on Staten Island's North Shore faces persistent flooding driven by topography, aging infrastructure, and rising seas. Teams developed tree-planting simulation tools, improved flood modeling, and community-facing alert systems to build long-term resilience.",
-    pullQuote: "Resilience isn’t just about surviving the storm – it’s about who gets to stay after.",
+    pullQuote: "Resilience isn't just about surviving the storm – it's about who gets to stay after.",
     coordinates: [-74.0776, 40.6280],
     color: "#C4611A",
     projects: ["sperm-whales", "stars-of-india", "titanosaurs"]
@@ -244,7 +244,6 @@ const SITE_CONFIG = {
   subtitle: "Climate Resilience Through Collaborative Data Science",
   date: "January 2026",
   location: "New York City",
-  mapboxToken: typeof MAPBOX_TOKEN !== 'undefined' ? MAPBOX_TOKEN : '',
   mapCenter: [-73.93, 40.73],
   mapZoom: 10.5,
   dataSources: [
