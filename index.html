@@ -7,6 +7,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;400;700&display=swap" rel="stylesheet"/>
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet"/>
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
+<link rel="stylesheet" href="map/styles.css"/>
 <style>
   :root {
     --text: #000;
@@ -385,8 +388,79 @@
           </div>
 
           <!-- Map -->
-          <div style="width: 100%; aspect-ratio: 1 / 1; position: relative; margin-bottom: 16px;">
-            <div id="map" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
+          <div class="uf-map-frame">
+            <section class="uf-map-section">
+
+              <div id="uf-nhood-state" class="uf-map-nhood-state" hidden>
+                <div class="uf-map-nhood-header">
+                  <button id="uf-map-back-btn" class="uf-map-back-btn" onclick="closeNeighborhoodPanel()">&#8592; All Neighborhoods</button>
+                  <div>
+                    <h3 id="uf-nhood-name" class="uf-map-nhood-name"></h3>
+                    <p id="uf-nhood-borough" class="uf-map-nhood-borough"></p>
+                  </div>
+                </div>
+                <p id="uf-nhood-desc" class="uf-map-nhood-desc"></p>
+              </div>
+
+              <div class="uf-map-section-inner">
+                <div class="uf-map-controls">
+                  <div class="uf-map-control-panel">
+                    <div class="uf-map-control-title">Open NYC Climate Data</div>
+
+                    <label class="uf-map-layer-toggle">
+                      <input type="checkbox" data-layer="neighborhoods" checked>
+                      <span class="uf-map-layer-dot" style="background: linear-gradient(135deg, #C8373A 50%, #1B5E8A 50%);"></span>
+                      <span>Neighborhoods</span>
+                    </label>
+
+                    <label class="uf-map-layer-toggle">
+                      <input type="checkbox" data-layer="cloudburst">
+                      <span class="uf-map-layer-dot" style="background: #5B8DD9;"></span>
+                      <span>Cloudburst Flooding</span>
+                    </label>
+
+                    <label class="uf-map-layer-toggle">
+                      <input type="checkbox" data-layer="heat">
+                      <span class="uf-map-layer-dot" style="background: #E85D04;"></span>
+                      <span>Urban Heat</span>
+                    </label>
+
+                    <label class="uf-map-layer-toggle">
+                      <input type="checkbox" data-layer="pfirm">
+                      <span class="uf-map-layer-dot" style="background: #B5541A;"></span>
+                      <span>PFIRM 2015 Flood Zones</span>
+                    </label>
+
+                    <label class="uf-map-layer-toggle">
+                      <input type="checkbox" data-layer="surge2050">
+                      <span class="uf-map-layer-dot" style="background: #1B7FC4;"></span>
+                      <span>Coastal Surge 2050s</span>
+                    </label>
+
+                    <label class="uf-map-layer-toggle">
+                      <input type="checkbox" data-layer="surge2080">
+                      <span class="uf-map-layer-dot" style="background: #0A3F6B;"></span>
+                      <span>Coastal Surge 2080s</span>
+                    </label>
+                  </div>
+
+                  <div id="uf-nhood-layers-control" class="uf-map-control-panel uf-map-control-panel--neighborhood" hidden></div>
+
+                  <div class="uf-map-control-panel uf-map-hint">Click a neighborhood to explore its projects.</div>
+                </div>
+
+                <div class="uf-map-container">
+                  <div id="map"></div>
+                </div>
+              </div>
+
+              <div id="uf-layer-descriptions" class="uf-map-layer-descriptions" hidden></div>
+
+              <div id="uf-nhood-projects" class="uf-map-nhood-projects" hidden>
+                <div id="uf-nhood-projects-inner" class="uf-map-nhood-projects-inner"></div>
+              </div>
+
+            </section>
           </div>
 
           <!-- Bottom teal card -->
@@ -396,60 +470,9 @@
 
         </div>
 
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-        <script>
-          const map = L.map('map', { zoomControl: true });
-          L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
-            maxZoom: 19
-          }).addTo(map);
-
-          // Borough outlines
-          fetch('https://raw.githubusercontent.com/codeforgermany/click_that_hood/main/public/data/new-york-city-boroughs.geojson')
-            .then(r => r.json())
-            .then(data => {
-              const layer = L.geoJSON(data, {
-                style: {
-                  color: '#7ec8d4',
-                  weight: 1,
-                  fillColor: 'transparent',
-                  fillOpacity: 0
-                }
-              }).addTo(map);
-              map.fitBounds(layer.getBounds(), { padding: [-30, -30] });
-            });
-
-          // Pushpins for 5 neighborhoods
-          const pins = [
-            { name: 'East Harlem', lat: 40.7958, lng: -73.9389 },
-            { name: 'Soundview', lat: 40.8187, lng: -73.8726 },
-            { name: 'Brownsville', lat: 40.6634, lng: -73.9126 },
-            { name: 'Flushing', lat: 40.7675, lng: -73.8330 },
-            { name: 'Stapleton', lat: 40.6279, lng: -74.0776 }
-          ];
-
-          pins.forEach(p => {
-            L.marker([p.lat, p.lng])
-              .bindTooltip(p.name, { permanent: true, direction: 'top', className: 'neighborhood-label' })
-              .addTo(map);
-          });
-        </script>
-
-        <style>
-          .neighborhood-label {
-            background: white;
-            border: 1px solid #64b9c4;
-            box-shadow: none;
-            font-family: Inter, sans-serif;
-            font-size: 11px;
-            letter-spacing: 0.07em;
-            text-transform: uppercase;
-            color: #64b9c4;
-            font-weight: 700;
-            padding: 2px 6px;
-          }
-        </style>
+        <script src="data/config.js"></script>
+        <script src="data/content.js"></script>
+        <script src="map/main.js"></script>
 
         <p>One key planning decision for "Urban Futures" was who would define the challenges given to participating teams. The organizing partners opted to create an open framework for the hackathon. The team worked with the neighborhood leaders in the months before the hackathon to develop a series of "prompts" based on the lived experience of climate risk in each neighborhood and programs run by the organizations represented by the neighborhood leaders. The "prompts" would be presented as starting points in the hackathon, but not inflexibly defined problems teams would be required to solve. These prompts provided one dimension of the "scaffold," that of community knowledge.</p>
 

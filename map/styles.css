@@ -1,0 +1,341 @@
+/* Interactive map - ported from leap-hackathon-website, rescoped to
+   urban-futures' Inter / --teal / --hinted design tokens. */
+
+.uf-map-frame {
+  margin-bottom: 16px;
+}
+
+.uf-map-section {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: var(--background);
+  border: 1px solid var(--muted);
+  overflow: hidden;
+}
+
+/* ---- Neighborhood state bar ---- */
+.uf-map-nhood-state {
+  flex-shrink: 0;
+  background: var(--text);
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.uf-map-nhood-state[hidden] { display: none; }
+
+.uf-map-nhood-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.uf-map-back-btn {
+  flex-shrink: 0;
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: var(--background);
+  font-family: Inter, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.uf-map-back-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.uf-map-nhood-name {
+  font-family: Inter, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--background);
+  margin: 0 0 2px;
+}
+
+.uf-map-nhood-borough {
+  font-family: Inter, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+}
+
+.uf-map-nhood-desc {
+  font-size: 14px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+  max-width: 70ch;
+}
+
+/* ---- Map canvas + controls ---- */
+.uf-map-section-inner {
+  flex: 1;
+  display: flex;
+  position: relative;
+  min-height: 480px;
+}
+
+.uf-map-container {
+  flex: 1;
+  position: relative;
+}
+
+.uf-map-container #map {
+  position: absolute;
+  inset: 0;
+}
+
+.uf-map-controls {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 220px;
+}
+
+.uf-map-control-panel {
+  background: var(--background);
+  border: 1px solid var(--muted);
+  border-top: 3px solid var(--teal);
+  padding: 14px 16px;
+  min-width: 200px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.uf-map-control-panel--neighborhood {
+  border-top-color: #1D6B45;
+}
+
+.uf-map-control-panel--neighborhood[hidden] { display: none; }
+
+.uf-map-control-title {
+  font-family: Inter, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--hinted);
+}
+
+.uf-map-hint {
+  font-family: Inter, sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--secondary);
+  line-height: 1.5;
+  border-top-color: var(--muted);
+}
+
+.uf-map-layer-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.uf-map-layer-toggle input[type="checkbox"] {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid var(--muted);
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.uf-map-layer-toggle input[type="checkbox"]:checked {
+  border-color: var(--teal);
+  background: var(--teal);
+}
+
+.uf-map-layer-toggle input[type="checkbox"]:checked::after {
+  content: '\2713';
+  position: absolute;
+  top: -2px;
+  left: 1px;
+  font-size: 10px;
+  color: #fff;
+  font-weight: bold;
+}
+
+.uf-map-layer-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+.uf-map-layer-toggle span:last-child {
+  font-family: Inter, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text);
+}
+
+/* ---- Layer descriptions ---- */
+.uf-map-layer-descriptions {
+  background: var(--hinted);
+  border-top: 1px solid var(--muted);
+}
+
+.uf-map-layer-descriptions[hidden] { display: none; }
+
+.uf-map-layer-desc-block {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--muted);
+}
+
+.uf-map-layer-desc-block:last-child {
+  border-bottom: none;
+}
+
+.uf-map-ldb-title {
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+  font-size: 13px;
+}
+
+.uf-map-ldb-body {
+  flex: 1;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text);
+  margin: 0;
+}
+
+.uf-map-ldb-source {
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-size: 12px;
+  color: var(--secondary);
+  margin: 0;
+  font-style: italic;
+}
+
+/* ---- Neighborhood project cards ---- */
+.uf-map-nhood-projects {
+  background: var(--background);
+  padding: 20px 24px;
+  border-top: 1px solid var(--muted);
+}
+
+.uf-map-nhood-projects[hidden] { display: none; }
+
+.uf-map-nhood-projects-inner {
+  display: grid;
+  gap: 16px;
+}
+
+.uf-map-project-card {
+  background: var(--hinted);
+  border: 1px solid var(--muted);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.uf-map-project-card--winner {
+  border-color: var(--teal);
+  border-width: 2px;
+}
+
+.uf-map-project-card--linked {
+  cursor: pointer;
+}
+
+.uf-map-project-card--linked:hover {
+  border-color: var(--secondary);
+}
+
+.uf-map-project-card--active {
+  border-color: var(--teal) !important;
+  border-width: 2px !important;
+  background: rgba(100, 185, 196, 0.15);
+}
+
+.uf-map-layer-hint {
+  align-self: flex-start;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--secondary);
+  margin-top: auto;
+}
+
+.uf-map-project-card--active .uf-map-layer-hint {
+  color: var(--teal);
+}
+
+.uf-map-winner-tag {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--teal);
+}
+
+.uf-map-project-team {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.uf-map-project-title {
+  font-size: 14px;
+  font-style: italic;
+  color: var(--secondary);
+  margin: 0;
+}
+
+.uf-map-project-desc {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text);
+  margin: 0;
+  flex: 1;
+}
+
+.uf-map-demo-tag {
+  align-self: flex-start;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #1D6B45;
+  border: 1px solid #1D6B45;
+  padding: 2px 6px;
+}
+
+@media (max-width: 800px) {
+  .uf-map-nhood-projects-inner {
+    grid-template-columns: 1fr !important;
+  }
+}
