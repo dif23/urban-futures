@@ -382,25 +382,26 @@
           <!-- Title -->
           <div style="font-size: 18px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--secondary); margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--muted);">NYC Communities + Climate Risk</div>
 
-          <!-- Top teal card -->
-          <div style="background-color: rgba(100, 185, 196, 0.2); padding: 20px; margin-bottom: 16px;">
+          <!-- Top teal card: swaps between city overview and neighborhood info -->
+          <div id="uf-city-overview" style="background-color: rgba(100, 185, 196, 0.2); padding: 20px; margin-bottom: 16px;">
             <p style="font-size: 16px; line-height: 1.5; color: var(--text); margin: 0;"><span style="font-weight: 700;">City Overview:</span> New York City has 250 to 300 neighborhoods, depending on how you draw the boundaries. These neighborhoods are represented by 59 Community Boards. While every neighborhood is implicated by climate change, how climate risk impacts neighborhoods varies because every community has a unique population and built environment. City government typically considers four risks in resilience planning – sea level rise, coastal storms, cloudburst, and extreme heat. You can view overlays of these risks in this map as well as the five neighborhoods that participated in "Urban Futures."</p>
+          </div>
+
+          <div id="uf-nhood-info" hidden style="background-color: rgba(100, 185, 196, 0.2); padding: 20px; margin-bottom: 16px;">
+            <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 12px;">
+              <div>
+                <span id="uf-info-borough" style="font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--secondary);"></span>
+                <h3 id="uf-info-name" style="font-size: 20px; font-weight: 700; color: var(--text); margin: 4px 0 0;"></h3>
+              </div>
+              <button onclick="closeNeighborhoodPanel()" style="flex-shrink: 0; background: none; border: 1px solid var(--muted); color: var(--secondary); font-family: Inter, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; padding: 6px 12px; cursor: pointer;">&#8592; All Neighborhoods</button>
+            </div>
+            <p id="uf-info-desc" style="font-size: 16px; line-height: 1.5; color: var(--text); margin: 0 0 12px;"></p>
+            <p id="uf-info-quote" style="font-size: 15px; line-height: 1.5; color: var(--secondary); margin: 0; font-style: italic; border-left: 3px solid var(--teal); padding-left: 12px;"></p>
           </div>
 
           <!-- Map -->
           <div class="uf-map-frame">
             <section class="uf-map-section">
-
-              <div id="uf-nhood-state" class="uf-map-nhood-state" hidden>
-                <div class="uf-map-nhood-header">
-                  <button id="uf-map-back-btn" class="uf-map-back-btn" onclick="closeNeighborhoodPanel()">&#8592; All Neighborhoods</button>
-                  <div>
-                    <h3 id="uf-nhood-name" class="uf-map-nhood-name"></h3>
-                    <p id="uf-nhood-borough" class="uf-map-nhood-borough"></p>
-                  </div>
-                </div>
-                <p id="uf-nhood-desc" class="uf-map-nhood-desc"></p>
-              </div>
 
               <div class="uf-map-section-inner">
                 <div class="uf-map-controls">
