@@ -846,49 +846,5 @@ function closeNeighborhoodPanel() {
   inner.innerHTML = '';
 }
 
-// ---- Project Index ----
-function renderProjectIndex(filterNeighborhood = 'all', filterWinner = false) {
-  const grid = document.getElementById('uf-index-grid');
-  if (!grid) return;
-  const filtered = PROJECTS.filter(p => {
-    if (filterWinner && !p.isWinner) return false;
-    if (filterNeighborhood !== 'all' && p.neighborhoodId !== filterNeighborhood) return false;
-    return true;
-  });
-  grid.innerHTML = filtered.map(p => {
-    const nhood = NEIGHBORHOODS.find(n => n.id === p.neighborhoodId);
-    const color = NEIGHBORHOOD_COLORS[p.neighborhoodId] || '#888';
-    return `
-      <div class="uf-index-card${p.isWinner ? ' uf-index-card--winner' : ''}">
-        ${p.isWinner ? `<span class="uf-index-winner-badge">${p.isWinnerCategory}</span>` : ''}
-        <p class="uf-index-card-team">${p.team}</p>
-        ${p.title ? `<p class="uf-index-card-title">${p.title}</p>` : ''}
-        <p class="uf-index-card-nhood" style="color:${color};">
-          <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${color};flex-shrink:0;margin-right:4px;"></span>
-          ${nhood ? nhood.name : ''}
-        </p>
-        <p class="uf-index-card-desc">${p.description}</p>
-        <div class="uf-index-card-footer">
-          ${p.tags.map(t => `<span class="uf-index-tag">${t}</span>`).join('')}
-          ${p.demoAvailable ? '<span class="uf-index-demo-badge">Demo available</span>' : ''}
-        </div>
-      </div>
-    `;
-  }).join('');
-}
-
-function setupProjectIndexFilters() {
-  const bar = document.getElementById('uf-index-filters');
-  if (!bar) return;
-  bar.querySelectorAll('.uf-index-filter-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      bar.querySelectorAll('.uf-index-filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const f = btn.dataset.filter;
-      renderProjectIndex(f === 'winners' ? 'all' : f, f === 'winners');
-    });
-  });
-}
-
 // ---- Init ----
 document.addEventListener('DOMContentLoaded', initMap);

@@ -649,29 +649,6 @@
           </div>
         </div>
 
-        <!-- ── Project Index ── -->
-        <div style="background-color: var(--hinted); padding: 32px; margin: 32px 0;">
-          <div style="font-size: 18px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--secondary); margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--muted);">All Projects</div>
-          <div class="uf-index-filter-bar" id="uf-index-filters">
-            <button class="uf-index-filter-btn active" data-filter="all">All Neighborhoods</button>
-            <button class="uf-index-filter-btn" data-filter="winners">Winners Only</button>
-            <button class="uf-index-filter-btn" data-filter="east-harlem">East Harlem</button>
-            <button class="uf-index-filter-btn" data-filter="soundview">Soundview</button>
-            <button class="uf-index-filter-btn" data-filter="flushing">Flushing</button>
-            <button class="uf-index-filter-btn" data-filter="brownsville">Brownsville</button>
-            <button class="uf-index-filter-btn" data-filter="stapleton">Stapleton</button>
-          </div>
-          <div class="uf-index-grid" id="uf-index-grid"></div>
-        </div>
-        <script>
-          // Inline fallback: renderProjectIndex may not have fired yet if DOMContentLoaded
-          // already ran by the time this script executes (shouldn't happen, but defensive).
-          if (typeof renderProjectIndex === 'function') {
-            renderProjectIndex();
-            setupProjectIndexFilters();
-          }
-        </script>
-
         <p>The breadth of projects that were presented at the conclusion of the hackathon would not have been possible without the perspectives and participation of the neighborhood leaders.</p>
 
         <!-- Pull quote 1 goes after hackathon paragraph -->
