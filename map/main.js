@@ -95,7 +95,7 @@ const LAYER_DESCRIPTIONS = {
   },
   cloudburst: {
     title: 'Cloudburst Flooding',
-    body: 'Areas modeled as vulnerable to stormwater flooding during moderate cloudburst events. This is the flood-risk layer used by the flood, routing, sanitation, and stormwater-siting projects.',
+    body: 'A cloudburst is a sudden downpour that can flood streets and basements. This map shows NYC DEP’s projections of where cloudburst flooding will occur more frequently in the future. It is important to note that cloudbursts happen in specific locations because of the concentration of rainfall – while one neighborhood may experience flooding, another may not.',
     source: 'NYC Open Data – NYC Stormwater Flood Maps'
   },
   greenInfra: {
