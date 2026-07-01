@@ -3,8 +3,8 @@ const NEIGHBORHOODS = [
     id: "east-harlem",
     name: "East Harlem",
     borough: "Manhattan",
-    description: "East Harlem historically has been known as “El Barrio,” or Spanish Harlem. Located between Central Park and the East River in upper Manhattan, much of the neighborhood was historically marshland and streams, making it low lying and exposed to coastal storm surge today. In addition, because the neighborhood lacks street trees and has many wide, paved avenues, the area is a heat island within Manhattan.",
-    pullQuote: "The data told a story we already knew – now we have the tools to prove it.",
+    description: "East Harlem faces compounding climate risks from extreme heat and flooding, exacerbated by limited green spaces and significant socioeconomic vulnerability. Teams here examined cooling accessibility, green infrastructure gaps, and sanitation's role in flood resilience.",
+    pullQuote: "The data told a story we already knew — now we have the tools to prove it.",
     coordinates: [-73.9380, 40.7957],
     color: "#C8373A",
     projects: ["african-elephants", "alaskan-brown-bears", "blue-whales"]
@@ -13,8 +13,8 @@ const NEIGHBORHOODS = [
     id: "soundview",
     name: "Soundview",
     borough: "Bronx",
-    description: "Soundview is located in the southeast Bronx and originally was a part of Westchester County. Because the area developed before being annexed by New York City, its street grid is larger than typical New York City neighborhoods, making it hard to get around on foot. Flooding and heat  impacts often impact access to neighborhood infrastructure such as transportation, parks, schools, shopping, and the waterfront.",
-    pullQuote: "The creek doesn't know borough boundaries – and neither should our solutions.",
+    description: "Soundview contends with stormwater flooding and gaps in green infrastructure that leave residents vulnerable during cloudbursts. Teams modeled pluvial floods and assessed heat vulnerability among aging residents, identifying sites for targeted intervention.",
+    pullQuote: "The creek doesn't know borough boundaries — and neither should our solutions.",
     coordinates: [-73.8730, 40.8170],
     color: "#1B5E8A",
     projects: ["giant-canoes", "giant-sequoias"]
@@ -23,7 +23,7 @@ const NEIGHBORHOODS = [
     id: "flushing",
     name: "Flushing / Queens",
     borough: "Queens",
-    description: "Downtown Flushing and the Flushing Creek waterfront is one of New York City’s high density transportation hubs. The neighborhood is also home to Asian immigrants who live downtown and in the surrounding residential areas with single- and multi-family houses. Flushing has been significantly impacted by cloudburst flooding. Neighborhood organizations have advocated for stronger access to the Flushing Creek waterfront.",
+    description: "Flushing Bay and the surrounding Queens neighborhoods face intense stormwater flooding from cloudbursts and limited sewer capacity. Teams developed AI-powered visualization tools, rain garden models, and stormwater capture frameworks to address compounding flood risk.",
     pullQuote: "Increasing precipitation and more intense cloudbursts demand smarter, community-driven solutions.",
     coordinates: [-73.8330, 40.7675],
     color: "#1D6B45",
@@ -33,8 +33,8 @@ const NEIGHBORHOODS = [
     id: "brownsville",
     name: "Brownsville",
     borough: "Brooklyn",
-    description: "Brownsville is a predominantly Black neighborhood in Central Brooklyn. Many of the neighborhood organizations and advocates in Brownville focus on building and preserving community wealth through local ownership of businesses, housing, and community centers, community land trusts, and urban farming. The neighborhood is exposed to both cloudburst flooding and the impacts of extreme heat.",
-    pullQuote: "When you layer heat, income, and access – the picture becomes impossible to ignore.",
+    description: "Brownsville sits at the intersection of extreme heat vulnerability and limited access to cooling resources. Teams developed spatial optimization tools for cooling site placement and a climate-aware emergency routing system to improve resilience for this historically underserved community.",
+    pullQuote: "When you layer heat, income, and access — the picture becomes impossible to ignore.",
     coordinates: [-73.9124, 40.6635],
     color: "#6B2D8B",
     projects: ["komodo-dragons", "megalodons", "moai-statues"]
@@ -43,8 +43,8 @@ const NEIGHBORHOODS = [
     id: "stapleton",
     name: "Stapleton",
     borough: "Staten Island",
-    description: "Stapleton is a waterfront neighborhood in northern Staten Island. The Stapletown waterfront is currently undergoing redevelopment while the historic business district inland was significantly impacted by flooding during Hurricane Sandy in 2012. Water from buried streams and infilled canals and turning basins often floods basements during rain storms. Faith-based organizations play an important role in providing social infrastructure and services in the neighborhood.",
-    pullQuote: "Resilience isn't just about surviving the storm – it's about who gets to stay after.",
+    description: "Stapleton on Staten Island's North Shore faces persistent flooding driven by topography, aging infrastructure, and rising seas. Teams developed tree-planting simulation tools, improved flood modeling, and community-facing alert systems to build long-term resilience.",
+    pullQuote: "Resilience isn't just about surviving the storm — it's about who gets to stay after.",
     coordinates: [-74.0776, 40.6280],
     color: "#C4611A",
     projects: ["sperm-whales", "stars-of-india", "titanosaurs"]
@@ -56,7 +56,7 @@ const PROJECTS = [
   {
     id: "african-elephants",
     neighborhoodId: "east-harlem",
-    title: "Rethinking Heat Resilience in East Harlem",
+    title: "Risk to Response: Rethinking Heat Resilience in East Harlem",
     team: "African Elephants",
     members: "Claire Helms, Eve Lu, Nami Jain, Glen Chua, Tamara Jeffries",
     description: "Developed a cooling accessibility score integrating multiple datasets to identify areas with poor access to cooling centers. Proposed using local assets like schools and businesses as supplemental cooling sites, alongside an asset-based communication program involving high schoolers and community organizations to improve heat preparedness year-round.",
@@ -92,6 +92,7 @@ const PROJECTS = [
     datasets: ["311 service requests", "NYCDEP catch basins", "DSNY litter basket locations", "NYC stormwater flood maps"]
   },
 
+  
   // Soundview
   {
     id: "giant-canoes",
@@ -134,7 +135,7 @@ const PROJECTS = [
   {
     id: "hadrosaur-footprints",
     neighborhoodId: "flushing",
-    title: "Future Steps for Rain Gardens",
+    title: "Rain Garden Decision Support Tool",
     team: "Hadrosaur Footprints",
     members: "Aayush Parekh, Connor Feldman, Gianluca Astudillo, Lea Coquet, Shreeya KC",
     description: "Modeled the impact of rain gardens on stormwater runoff in Flushing Bay to improve flood resilience and reduce combined sewer overflow. The model integrates physical neighborhood characteristics, sewer system data, and rainfall time series to evaluate the effectiveness of existing and optimized rain garden designs.",
