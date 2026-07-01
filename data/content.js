@@ -56,7 +56,7 @@ const PROJECTS = [
   {
     id: "african-elephants",
     neighborhoodId: "east-harlem",
-    title: "Risk to Response: Rethinking Heat Resilience in East Harlem",
+    title: "Rethinking Heat Resilience in East Harlem",
     team: "African Elephants",
     members: "Claire Helms, Eve Lu, Nami Jain, Glen Chua, Tamara Jeffries",
     description: "Developed a cooling accessibility score integrating multiple datasets to identify areas with poor access to cooling centers. Proposed using local assets like schools and businesses as supplemental cooling sites, alongside an asset-based communication program involving high schoolers and community organizations to improve heat preparedness year-round.",
@@ -68,7 +68,7 @@ const PROJECTS = [
   {
     id: "alaskan-brown-bears",
     neighborhoodId: "east-harlem",
-    title: "EcoMaps",
+    title: "Hyper-local Street Tree Census",
     team: "Alaskan Brown Bears",
     members: "Alana Menendez, Andre Nguyen, Brooke Walker-Concepcion, Jose Solorzano Escobar, Rania Khan",
     description: "Developed EcoMaps, an interactive tool for young community members to visualize green space benefits and a hyperlocal tree census database to secure maintenance funding. The Jupyter notebook tool enables ecological trend analysis and visualization of tree care benefits, designed for engagement at public schools and community events.",
@@ -80,7 +80,7 @@ const PROJECTS = [
   {
     id: "blue-whales",
     neighborhoodId: "east-harlem",
-    title: "Clogged & Forgotten: Sanitation Infrastructure and Flood Risk in East Harlem",
+    title: "Catch Basin Pandas",
     team: "Blue Whales",
     members: "Archy Guo, Charlotte Rhoads, Pooja Thakur, Raheem Williams, Tracy Obirika",
     description: "Investigated how East Harlem's history as a salt marsh and ongoing sanitation neglect exacerbate flooding. Geospatial analysis revealed an uneven distribution of trash cans compared to wealthier neighborhoods, identifying high-risk areas where inadequate sanitation infrastructure directly contributes to clogged drains and intensified flood risk.",
@@ -96,7 +96,7 @@ const PROJECTS = [
   {
     id: "giant-canoes",
     neighborhoodId: "soundview",
-    title: "From Pavement to Permeability: Green Infrastructure Siting in Soundview",
+    title: "Green Transformation of Underutilized Lots",
     team: "Giant Canoes",
     members: "Archy Guo, Charlotte Rhoads, Pooja Thakur, Raheem Williams, Tracy Obirika",
     description: "Modeled pluvial floods in Soundview using digital elevation models and Sphinx open-source software to identify optimal sites for green infrastructure like rain gardens and bioswales. Developed an interactive map visualizing how converting underutilized areas such as parking lots could improve permeability and reduce flood risk.",
@@ -108,7 +108,7 @@ const PROJECTS = [
   {
     id: "giant-sequoias",
     neighborhoodId: "soundview",
-    title: "Cooling Soundview: Heat Vulnerability and Brownfield Redevelopment for an Aging Population",
+    title: "Reducing Heat Stress in Soundview",
     team: "Giant Sequoias",
     members: "Arya Roi, Caroline Shaum, Kevin Chan, Laura Lovelace, Zoe Tseng",
     description: "Assessed heat vulnerability in Soundview focusing on residents over 65 using Google Earth Engine surface temperature data and CESM2 climate projections for 2030 and 2035. Identified 49 brownfield sites as potential redevelopment locations for cooling interventions.",
@@ -122,7 +122,7 @@ const PROJECTS = [
   {
     id: "gorillas",
     neighborhoodId: "flushing",
-    title: "Cloudburst AI",
+    title: "When the Clouds Panic",
     team: "Gorillas",
     members: "Khushi Mehta, Tehreem Qureshi, Bayonle Ibukun, Ariann Duncan, Steven Smith",
     description: "Developed Cloudburst AI, an interactive 3D visualization platform and AI agent addressing frequent flooding in Queens. The tool uses an open-source ALAMA model with climate specialist, scientific validator, and community planner roles to communicate flood relief potential and integrate expert feedback from the Guardians of Flushing Bay.",
@@ -134,7 +134,7 @@ const PROJECTS = [
   {
     id: "hadrosaur-footprints",
     neighborhoodId: "flushing",
-    title: "Rain Garden Decision Support Tool",
+    title: "Future Steps for Rain Gardens",
     team: "Hadrosaur Footprints",
     members: "Aayush Parekh, Connor Feldman, Gianluca Astudillo, Lea Coquet, Shreeya KC",
     description: "Modeled the impact of rain gardens on stormwater runoff in Flushing Bay to improve flood resilience and reduce combined sewer overflow. The model integrates physical neighborhood characteristics, sewer system data, and rainfall time series to evaluate the effectiveness of existing and optimized rain garden designs.",
@@ -146,7 +146,7 @@ const PROJECTS = [
   {
     id: "king-penguins",
     neighborhoodId: "flushing",
-    title: "Rain Garden Runoff Model: Mitigating CSO in Flushing Bay",
+    title: "Model of a Rain Garden",
     team: "King Penguins",
     members: "Audrey Jenkins, Gregory Randazzo, Sunni Hu, Tyler Janoski, Xinchi Zhang",
     description: "Developed a model to estimate stormwater capture and infiltration from rain gardens based on rainfall rate, soil infiltration, slope, and drainage area. Focused on reducing combined sewer overflow in the Flushing Bay area to improve water quality and mitigate flooding risk in urban environments.",
@@ -160,7 +160,7 @@ const PROJECTS = [
   {
     id: "komodo-dragons",
     neighborhoodId: "brownsville",
-    title: "Cool Taps: Optimizing Hydrant Spray Cap Placement in Brownsville",
+    title: "Spray Caps and Greedy Trees",
     team: "Komodo Dragons",
     members: "Karla Pinzón, Jorge Bravo, Cathy Deng, Forrest Pan",
     description: "Addressed extreme heat vulnerability in Brownsville by improving access to cooling resources through optimized placement of fire hydrant spray caps. Developed an interactive web map applying spatial optimization algorithms (K-center problem using greedy methods and K-d trees) to minimize the distance residents must travel to reach cooling sources during heat waves.",
@@ -204,7 +204,7 @@ const PROJECTS = [
   {
     id: "sperm-whales",
     neighborhoodId: "stapleton",
-    title: "Block-by-Block: Hyperlocal Heat Vulnerability and Tree Equity in Staten Island",
+    title: "Precision Heat Relief",
     team: "Sperm Whales",
     members: "Chaitanya Kukreja, Julia Barcelo Figueras, Kai Xu",
     description: "Developed an interactive platform to identify heat vulnerability at a hyper-local street level in Staten Island and simulate how targeted tree-planting could reduce neighborhood temperatures. The tool combines environmental and socioeconomic data to help communities and planners visualize where cooling interventions would have the greatest equity impact.",
