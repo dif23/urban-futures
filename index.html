@@ -393,8 +393,7 @@
               <span id="uf-info-borough" style="font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--secondary);"></span>
               <h3 id="uf-info-name" style="font-size: 20px; font-weight: 700; color: var(--text); margin: 4px 0 0;"></h3>
             </div>
-            <p id="uf-info-desc" style="font-size: 16px; line-height: 1.5; color: var(--text); margin: 0 0 12px;"></p>
-            <p id="uf-info-quote" style="font-size: 15px; line-height: 1.5; color: var(--secondary); margin: 0; font-style: italic; border-left: 3px solid var(--teal); padding-left: 12px;"></p>
+            <p id="uf-info-desc" style="font-size: 16px; line-height: 1.5; color: var(--text); margin: 0;"></p>
           </div>
 
           <div id="uf-map-back-row" class="uf-map-back-row" hidden>
@@ -419,7 +418,7 @@
                     <label class="uf-map-layer-toggle">
                       <input type="checkbox" data-layer="cloudburst">
                       <span class="uf-map-layer-dot" style="background: #5B8DD9;"></span>
-                      <span>Cloudburst Flooding</span>
+                      <span>Cloudburst Flooding 2080s</span>
                     </label>
 
                     <label class="uf-map-layer-toggle">
@@ -439,6 +438,12 @@
                       <span class="uf-map-layer-dot" style="background: #0A3F6B;"></span>
                       <span>Coastal Surge 2080s</span>
                     </label>
+
+                    <label class="uf-map-layer-toggle">
+                      <input type="checkbox" data-layer="seaLevelRise">
+                      <span class="uf-map-layer-dot" style="background: #1B7FC4;"></span>
+                      <span>Sea Level Rise 2080s</span>
+                    </label>
                   </div>
 
                   <div id="uf-nhood-layers-control" class="uf-map-control-panel uf-map-control-panel--neighborhood" hidden></div>
@@ -451,11 +456,11 @@
                 </div>
               </div>
 
-              <div id="uf-layer-descriptions" class="uf-map-layer-descriptions" hidden></div>
-
               <div id="uf-nhood-projects" class="uf-map-nhood-projects" hidden>
                 <div id="uf-nhood-projects-inner" class="uf-map-nhood-projects-inner"></div>
               </div>
+
+              <div id="uf-layer-descriptions" class="uf-map-layer-descriptions" hidden></div>
 
             </section>
           </div>

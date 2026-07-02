@@ -4,7 +4,6 @@ const NEIGHBORHOODS = [
     name: "East Harlem",
     borough: "Manhattan",
     description: "East Harlem faces compounding climate risks from extreme heat and flooding, exacerbated by limited green spaces and significant socioeconomic vulnerability. Teams here examined cooling accessibility, green infrastructure gaps, and sanitation's role in flood resilience.",
-    pullQuote: "The data told a story we already knew — now we have the tools to prove it.",
     coordinates: [-73.9380, 40.7957],
     color: "#64b9c4",
     projects: ["african-elephants", "alaskan-brown-bears", "blue-whales"]
@@ -14,7 +13,6 @@ const NEIGHBORHOODS = [
     name: "Soundview",
     borough: "Bronx",
     description: "Soundview contends with stormwater flooding and gaps in green infrastructure that leave residents vulnerable during cloudbursts. Teams modeled pluvial floods and assessed heat vulnerability among aging residents, identifying sites for targeted intervention.",
-    pullQuote: "The creek doesn't know borough boundaries — and neither should our solutions.",
     coordinates: [-73.8730, 40.8170],
     color: "#64b9c4",
     projects: ["giant-canoes", "giant-sequoias"]
@@ -24,7 +22,6 @@ const NEIGHBORHOODS = [
     name: "Flushing / Queens",
     borough: "Queens",
     description: "Flushing Bay and the surrounding Queens neighborhoods face intense stormwater flooding from cloudbursts and limited sewer capacity. Teams developed AI-powered visualization tools, rain garden models, and stormwater capture frameworks to address compounding flood risk.",
-    pullQuote: "Increasing precipitation and more intense cloudbursts demand smarter, community-driven solutions.",
     coordinates: [-73.8330, 40.7675],
     color: "#64b9c4",
     projects: ["gorillas", "hadrosaur-footprints", "king-penguins"]
@@ -34,7 +31,6 @@ const NEIGHBORHOODS = [
     name: "Brownsville",
     borough: "Brooklyn",
     description: "Brownsville sits at the intersection of extreme heat vulnerability and limited access to cooling resources. Teams developed spatial optimization tools for cooling site placement and a climate-aware emergency routing system to improve resilience for this historically underserved community.",
-    pullQuote: "When you layer heat, income, and access — the picture becomes impossible to ignore.",
     coordinates: [-73.9124, 40.6635],
     color: "#64b9c4",
     projects: ["komodo-dragons", "megalodons", "moai-statues"]
@@ -44,7 +40,6 @@ const NEIGHBORHOODS = [
     name: "Stapleton",
     borough: "Staten Island",
     description: "Stapleton on Staten Island's North Shore faces persistent flooding driven by topography, aging infrastructure, and rising seas. Teams developed tree-planting simulation tools, improved flood modeling, and community-facing alert systems to build long-term resilience.",
-    pullQuote: "Resilience isn't just about surviving the storm — it's about who gets to stay after.",
     coordinates: [-74.0776, 40.6280],
     color: "#64b9c4",
     projects: ["sperm-whales", "stars-of-india", "titanosaurs"]

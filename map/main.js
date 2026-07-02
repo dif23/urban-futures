@@ -32,29 +32,25 @@ const OVERLAY_SOURCES = {
     url: `${DCP_TILES}/Future_Floodplain_2080s/MapServer/tile/{z}/{y}/{x}`,
     opacity: 0.65,
     attribution: 'Future Floodplain 2080s – NYC DCP'
+  },
+  seaLevelRise: {
+    kind: 'raster',
+    url: `${DCP_TILES}/High_Tide_2080s/MapServer/tile/{z}/{y}/{x}`,
+    opacity: 0.65,
+    attribution: 'High Tide 2080s – NYC DCP'
   }
 };
 
 const LAYER_DESCRIPTIONS = {
-  cloudburst: {
-    title: 'Cloudburst Flooding',
-    body: 'This layer maps areas at risk of stormwater flooding during moderate cloudburst events, based on NYC stormwater flood modeling. Blue zones indicate predicted inundation under moderate storm conditions across the five boroughs.',
-    source: 'NYC Open Data – NYC Stormwater Flood Maps'
-  },
   heat: {
     title: 'Extreme Heat',
-    body: 'Mean surface temperature data from 2020–2022. Warmer tones highlight neighborhoods with the greatest heat burden – typically areas with dense pavement, limited tree canopy, and lower access to cooling resources.',
-    source: 'NYC City Council – Mean Surface Temperature 2020–2022'
+    body: 'Of all four climate risks, the most injuries and fatalities are caused by extreme heat. Extreme heat is defined as three or more consecutive days when the temperature reaches 90 degrees fahrenheit or more. This map from the New York City Council shows average surface temperatures on a summer day. Where the map is red, it will be hotter than average by 1 to 8 degrees fahrenheit.',
+    source: 'New York City Council Data Science Team'
   },
   pfirm: {
     title: 'PFIRM 2015 Flood Zones',
     body: 'FEMA\'s Preliminary Flood Insurance Rate Maps show regulatory flood risk zones across New York City, distinguishing between 1% annual chance (100-year) and 0.2% annual chance (500-year) floodplains based on current conditions.',
     source: 'FEMA / NYC DCP – 2015 Preliminary Flood Insurance Rate Maps'
-  },
-  surge2080: {
-    title: 'Coastal Surge 2080s',
-    body: 'Projected 100-year floodplain under 2080s sea level rise scenarios – the most severe long-term outlook modeled by NYC DCP. Communities shown here face significant displacement and infrastructure risk by end of century without major adaptation.',
-    source: 'NYC Department of City Planning – Future Floodplain 2080s'
   },
   'flushing-rain-gardens': {
     title: 'Rain Gardens',
@@ -72,9 +68,9 @@ const LAYER_DESCRIPTIONS = {
     source: 'NYC Open Data – NYC Stormwater Flood Maps'
   },
   cloudburst: {
-    title: 'Cloudburst Flooding',
+    title: 'Cloudburst Flooding 2080s',
     body: 'A cloudburst is a sudden downpour that can flood streets and basements. This map shows NYC DEP’s projections of where cloudburst flooding will occur more frequently in the future. It is important to note that cloudbursts happen in specific locations because of the concentration of rainfall – while one neighborhood may experience flooding, another may not.',
-    source: 'NYC Open Data – NYC Stormwater Flood Maps'
+    source: 'NYC DEP Stormwater Projections'
   },
   greenInfra: {
     title: 'Green Infrastructure',
@@ -88,8 +84,13 @@ const LAYER_DESCRIPTIONS = {
   },
   surge2080: {
     title: 'Coastal Surge 2080s',
-    body: 'Projected 100-year coastal floodplain under 2080s sea level rise scenarios, showing longer-term coastal exposure for Staten Island flood-alert and adaptation projects.',
-    source: 'NYC Department of City Planning – Future Floodplain 2080s'
+    body: 'Storm surge is when high winds from a hurricane push water from the ocean inland such as during Hurricane Sandy in 2012. The FEMA PFIRM maps shows areas that could flood today, according to FEMA, for what is called a “100-year coastal storm.” Surge can also happen during smaller storms such as Nor’easters. The Coastal Surge 2080s map shows flooding that could happen 50 years from now based on projections by the NPCC.',
+    source: 'FEMA; New York City Panel on Climate Change Projections'
+  },
+  seaLevelRise: {
+    title: 'Sea Level Rise 2080s',
+    body: 'High tides are getting higher around the world as the amount of water in oceans increases and expands because of higher temperatures. Coastal areas may be flooded twice a day in the future because the tide will come further inland. This map shows the NPCC’s projection for chronic tidal flooding 50 years from now.',
+    source: 'New York City Panel on Climate Change Projections'
   },
   coolIt: {
     title: 'Cool It! Sites',
@@ -115,7 +116,7 @@ const LAYER_DESCRIPTIONS = {
 
 const BASE_NEIGHBORHOOD_LAYER_DEFS = {
   cloudburst: {
-    label: 'Cloudburst Flooding',
+    label: 'Cloudburst Flooding 2080s',
     color: '#5B8DD9',
     kind: 'filtered-overlay',
     descriptionId: 'cloudburst',
@@ -307,7 +308,7 @@ function initMap() {
       });
     });
 
-  ['heat', 'pfirm', 'surge2080'].forEach(key => {
+  ['heat', 'pfirm', 'surge2080', 'seaLevelRise'].forEach(key => {
     const cfg = OVERLAY_SOURCES[key];
     overlayLayers[key] = L.tileLayer(cfg.url, {
       tms: cfg.tms || false,
@@ -716,7 +717,6 @@ function showNeighborhoodPanel(neighborhoodId) {
   document.getElementById('uf-info-name').textContent = nhood.name;
   document.getElementById('uf-info-borough').textContent = nhood.borough;
   document.getElementById('uf-info-desc').textContent = nhood.description;
-  document.getElementById('uf-info-quote').textContent = nhood.pullQuote;
   document.getElementById('uf-nhood-info').removeAttribute('hidden');
   document.getElementById('uf-map-back-row').removeAttribute('hidden');
   document.getElementById('uf-map-neighborhood-hint').setAttribute('hidden', '');
@@ -737,7 +737,6 @@ function showNeighborhoodPanel(neighborhoodId) {
         <p class="uf-map-project-title">${projectTitle}</p>
         <p class="uf-map-project-team">${p.team}</p>
         <p class="uf-map-project-desc">${p.description}</p>
-        ${p.demoAvailable ? `<span class="uf-map-demo-tag">Demo available</span>` : ''}
         ${hasLayer ? `<span class="uf-map-layer-hint">Click to explore layer &#8594;</span>` : ''}
       </div>
     `;
