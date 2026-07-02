@@ -699,7 +699,7 @@ function setLayerDescriptionVisible(layerId, visible) {
     const block = document.createElement('div');
     block.className = 'uf-map-layer-desc-block';
     block.dataset.layer = layerId;
-    block.innerHTML = `<p class="uf-map-ldb-title">${desc.title}</p><p class="uf-map-ldb-body">${desc.body}</p><p class="uf-map-ldb-source">Source: ${desc.source}</p>`;
+    block.innerHTML = `<p class="uf-map-ldb-body"><span class="uf-map-ldb-title">${desc.title}:</span> ${desc.body}</p><p class="uf-map-ldb-source">Source: ${desc.source}</p>`;
     container.appendChild(block);
     container.removeAttribute('hidden');
   } else {
