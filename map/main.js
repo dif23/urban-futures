@@ -21,12 +21,6 @@ const OVERLAY_SOURCES = {
     tms: true, opacity: 0.75,
     attribution: 'Mean Surface Temp 2020-22 – NYC City Council'
   },
-  hvi: {
-    kind: 'raster',
-    url: `${LEAP_SOURCE_RAW}/data/tiles/heat/{z}/{x}/{y}.png`,
-    tms: true, opacity: 0.75,
-    attribution: 'Heat vulnerability context – NYC City Council / DOHMH'
-  },
   pfirm: {
     kind: 'raster',
     url: `${DCP_TILES}/2015PFIRMS/MapServer/tile/{z}/{y}/{x}`,
@@ -54,14 +48,9 @@ const LAYER_DESCRIPTIONS = {
     source: 'NYC Open Data – NYC Stormwater Flood Maps'
   },
   heat: {
-    title: 'Urban Heat',
+    title: 'Extreme Heat',
     body: 'Mean surface temperature data from 2020–2022. Warmer tones highlight neighborhoods with the greatest heat burden – typically areas with dense pavement, limited tree canopy, and lower access to cooling resources.',
     source: 'NYC City Council – Mean Surface Temperature 2020–2022'
-  },
-  hvi: {
-    title: 'Heat Vulnerability Context',
-    body: 'Heat vulnerability context for teams working on cooling access, older adults, NYCHA retrofits, and tree equity. The map uses the existing surface-temperature raster as the visual proxy for HVI-linked heat burden because the HVI ranking API is tabular by ZIP/ZCTA.',
-    source: 'NYC DOHMH Heat Vulnerability Index / NYC City Council heat raster'
   },
   pfirm: {
     title: 'PFIRM 2015 Flood Zones',
@@ -184,13 +173,6 @@ const BASE_NEIGHBORHOOD_LAYER_DEFS = {
     overlayId: 'surge2080',
     descriptionId: 'surge2080'
   },
-  hvi: {
-    label: 'Heat Vulnerability',
-    color: '#E85D04',
-    kind: 'overlay',
-    overlayId: 'hvi',
-    descriptionId: 'hvi'
-  },
   coolIt: {
     label: 'Cool It! Sites',
     color: '#00A6A6',
@@ -244,7 +226,6 @@ function nhoodLayer(neighborhoodId, baseId) {
 const NEIGHBORHOOD_LAYERS = {
   'east-harlem': [
     nhoodLayer('east-harlem', 'coolIt'),
-    nhoodLayer('east-harlem', 'hvi'),
     nhoodLayer('east-harlem', 'treeCanopy'),
     nhoodLayer('east-harlem', 'greenInfra'),
     nhoodLayer('east-harlem', 'cloudburst'),
@@ -253,7 +234,6 @@ const NEIGHBORHOOD_LAYERS = {
   soundview: [
     nhoodLayer('soundview', 'cloudburst'),
     nhoodLayer('soundview', 'greenInfra'),
-    nhoodLayer('soundview', 'hvi'),
     nhoodLayer('soundview', 'brownfields')
   ],
   flushing: [
@@ -264,13 +244,11 @@ const NEIGHBORHOOD_LAYERS = {
   ],
   brownsville: [
     nhoodLayer('brownsville', 'coolIt'),
-    nhoodLayer('brownsville', 'hvi'),
     nhoodLayer('brownsville', 'cloudburst'),
     nhoodLayer('brownsville', 'nycha')
   ],
   stapleton: [
     nhoodLayer('stapleton', 'treeCanopy'),
-    nhoodLayer('stapleton', 'hvi'),
     nhoodLayer('stapleton', 'cloudburst'),
     nhoodLayer('stapleton', 'surge2050'),
     nhoodLayer('stapleton', 'surge2080'),
@@ -279,18 +257,18 @@ const NEIGHBORHOOD_LAYERS = {
 };
 
 const PROJECT_LAYER_MAP = {
-  'african-elephants': ['east-harlem--coolIt', 'east-harlem--hvi'],
+  'african-elephants': 'east-harlem--coolIt',
   'alaskan-brown-bears': ['east-harlem--treeCanopy', 'east-harlem--greenInfra', 'east-harlem--cloudburst'],
   'blue-whales': ['east-harlem--cloudburst', 'east-harlem--cso'],
   'giant-canoes': ['soundview--cloudburst', 'soundview--greenInfra'],
-  'giant-sequoias': ['soundview--hvi', 'soundview--brownfields'],
+  'giant-sequoias': 'soundview--brownfields',
   'gorillas': ['flushing--cloudburst', 'flushing--cso', 'flushing--surge2050'],
   'hadrosaur-footprints': ['flushing--greenInfra', 'flushing--cso', 'flushing--cloudburst'],
   'king-penguins': ['flushing--greenInfra', 'flushing--cso'],
-  'komodo-dragons': ['brownsville--coolIt', 'brownsville--hvi'],
+  'komodo-dragons': 'brownsville--coolIt',
   'megalodons': 'brownsville--cloudburst',
-  'moai-statues': ['brownsville--nycha', 'brownsville--hvi'],
-  'sperm-whales': ['stapleton--treeCanopy', 'stapleton--hvi'],
+  'moai-statues': 'brownsville--nycha',
+  'sperm-whales': 'stapleton--treeCanopy',
   'stars-of-india': ['stapleton--cloudburst', 'stapleton--surge2050', 'stapleton--greenInfra'],
   'titanosaurs': ['stapleton--cloudburst', 'stapleton--surge2050', 'stapleton--surge2080']
 };
@@ -354,7 +332,7 @@ function initMap() {
       });
     });
 
-  ['heat', 'hvi', 'pfirm', 'surge2050', 'surge2080'].forEach(key => {
+  ['heat', 'pfirm', 'surge2050', 'surge2080'].forEach(key => {
     const cfg = OVERLAY_SOURCES[key];
     overlayLayers[key] = L.tileLayer(cfg.url, {
       tms: cfg.tms || false,
