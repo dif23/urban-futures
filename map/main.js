@@ -27,12 +27,6 @@ const OVERLAY_SOURCES = {
     opacity: 0.75,
     attribution: '2015 PFIRM Flood Zones – FEMA / NYC DCP'
   },
-  surge2050: {
-    kind: 'raster',
-    url: `${DCP_TILES}/Future_Floodplain_2050s/MapServer/tile/{z}/{y}/{x}`,
-    opacity: 0.65,
-    attribution: 'Future Floodplain 2050s – NYC DCP'
-  },
   surge2080: {
     kind: 'raster',
     url: `${DCP_TILES}/Future_Floodplain_2080s/MapServer/tile/{z}/{y}/{x}`,
@@ -56,11 +50,6 @@ const LAYER_DESCRIPTIONS = {
     title: 'PFIRM 2015 Flood Zones',
     body: 'FEMA\'s Preliminary Flood Insurance Rate Maps show regulatory flood risk zones across New York City, distinguishing between 1% annual chance (100-year) and 0.2% annual chance (500-year) floodplains based on current conditions.',
     source: 'FEMA / NYC DCP – 2015 Preliminary Flood Insurance Rate Maps'
-  },
-  surge2050: {
-    title: 'Coastal Surge 2050s',
-    body: 'Projected 100-year floodplain under 2050s sea level rise scenarios. This layer reflects moderate acceleration in coastal flood risk driven by rising seas and intensifying storm surge over the coming decades.',
-    source: 'NYC Department of City Planning – Future Floodplain 2050s'
   },
   surge2080: {
     title: 'Coastal Surge 2080s',
@@ -96,11 +85,6 @@ const LAYER_DESCRIPTIONS = {
     title: 'Combined Sewer Context',
     body: 'Green infrastructure assets in combined sewer drainage areas. These points show stormwater interventions most directly tied to reducing combined sewer overflow pressure during heavy rain.',
     source: 'NYC DEP – Green Infrastructure Map'
-  },
-  surge2050: {
-    title: 'Coastal Surge 2050s',
-    body: 'Projected 100-year coastal floodplain under 2050s sea level rise scenarios, used by projects focused on sea-level rise, high tides, and coastal flood preparedness.',
-    source: 'NYC Department of City Planning – Future Floodplain 2050s'
   },
   surge2080: {
     title: 'Coastal Surge 2080s',
@@ -158,13 +142,6 @@ const BASE_NEIGHBORHOOD_LAYER_DEFS = {
     where: "sewer_type='Combined'",
     limit: 1000,
     circleOptions: { radius: 4, fillColor: '#6366f1', color: '#4338ca', weight: 1, opacity: 1, fillOpacity: 0.7 }
-  },
-  surge2050: {
-    label: 'Coastal Surge 2050s',
-    color: '#1B7FC4',
-    kind: 'overlay',
-    overlayId: 'surge2050',
-    descriptionId: 'surge2050'
   },
   surge2080: {
     label: 'Coastal Surge 2080s',
@@ -239,8 +216,7 @@ const NEIGHBORHOOD_LAYERS = {
   flushing: [
     nhoodLayer('flushing', 'cloudburst'),
     nhoodLayer('flushing', 'greenInfra'),
-    nhoodLayer('flushing', 'cso'),
-    nhoodLayer('flushing', 'surge2050')
+    nhoodLayer('flushing', 'cso')
   ],
   brownsville: [
     nhoodLayer('brownsville', 'coolIt'),
@@ -250,7 +226,6 @@ const NEIGHBORHOOD_LAYERS = {
   stapleton: [
     nhoodLayer('stapleton', 'treeCanopy'),
     nhoodLayer('stapleton', 'cloudburst'),
-    nhoodLayer('stapleton', 'surge2050'),
     nhoodLayer('stapleton', 'surge2080'),
     nhoodLayer('stapleton', 'greenInfra')
   ]
@@ -262,23 +237,23 @@ const PROJECT_LAYER_MAP = {
   'blue-whales': ['east-harlem--cloudburst', 'east-harlem--cso'],
   'giant-canoes': ['soundview--cloudburst', 'soundview--greenInfra'],
   'giant-sequoias': 'soundview--brownfields',
-  'gorillas': ['flushing--cloudburst', 'flushing--cso', 'flushing--surge2050'],
+  'gorillas': ['flushing--cloudburst', 'flushing--cso'],
   'hadrosaur-footprints': ['flushing--greenInfra', 'flushing--cso', 'flushing--cloudburst'],
   'king-penguins': ['flushing--greenInfra', 'flushing--cso'],
   'komodo-dragons': 'brownsville--coolIt',
   'megalodons': 'brownsville--cloudburst',
   'moai-statues': 'brownsville--nycha',
   'sperm-whales': 'stapleton--treeCanopy',
-  'stars-of-india': ['stapleton--cloudburst', 'stapleton--surge2050', 'stapleton--greenInfra'],
-  'titanosaurs': ['stapleton--cloudburst', 'stapleton--surge2050', 'stapleton--surge2080']
+  'stars-of-india': ['stapleton--cloudburst', 'stapleton--greenInfra'],
+  'titanosaurs': ['stapleton--cloudburst', 'stapleton--surge2080']
 };
 
 const NEIGHBORHOOD_COLORS = {
-  'east-harlem': '#C8373A',
-  'soundview': '#1B5E8A',
-  'flushing': '#1D6B45',
-  'brownsville': '#6B2D8B',
-  'stapleton': '#C4611A'
+  'east-harlem': '#64b9c4',
+  'soundview': '#64b9c4',
+  'flushing': '#64b9c4',
+  'brownsville': '#64b9c4',
+  'stapleton': '#64b9c4'
 };
 
 // ---- Map state ----
@@ -332,7 +307,7 @@ function initMap() {
       });
     });
 
-  ['heat', 'pfirm', 'surge2050', 'surge2080'].forEach(key => {
+  ['heat', 'pfirm', 'surge2080'].forEach(key => {
     const cfg = OVERLAY_SOURCES[key];
     overlayLayers[key] = L.tileLayer(cfg.url, {
       tms: cfg.tms || false,
