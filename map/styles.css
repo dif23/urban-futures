@@ -150,10 +150,6 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-.uf-map-control-panel--neighborhood {
-  border-top-color: #1D6B45;
-}
-
 .uf-map-control-panel--neighborhood[hidden] { display: none; }
 
 .uf-map-control-title {
@@ -283,11 +279,6 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-}
-
-.uf-map-project-card--winner {
-  border-color: var(--teal);
-  border-width: 2px;
 }
 
 .uf-map-project-card--linked {
