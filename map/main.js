@@ -82,6 +82,11 @@ const LAYER_DESCRIPTIONS = {
     body: 'Green infrastructure assets in combined sewer drainage areas. These points show stormwater interventions most directly tied to reducing combined sewer overflow pressure during heavy rain.',
     source: 'NYC DEP – Green Infrastructure Map'
   },
+  litterBaskets: {
+    title: 'DSNY Litter Baskets',
+    body: 'Locations and types of public litter baskets tracked by DSNY. Uneven basket distribution is linked to street litter and clogged catch basins, compounding flood risk in areas with aging sanitation infrastructure.',
+    source: 'NYC DSNY – Litter Basket Map'
+  },
   surge2080: {
     title: 'Coastal Surge 2080s',
     body: 'Storm surge is when high winds from a hurricane push water from the ocean inland such as during Hurricane Sandy in 2012. The FEMA PFIRM maps shows areas that could flood today, according to FEMA, for what is called a “100-year coastal storm.” Surge can also happen during smaller storms such as Nor’easters. The Coastal Surge 2080s map shows flooding that could happen 50 years from now based on projections by the NPCC.',
@@ -143,6 +148,16 @@ const BASE_NEIGHBORHOOD_LAYER_DEFS = {
     where: "sewer_type='Combined'",
     limit: 1000,
     circleOptions: { radius: 4, fillColor: '#6366f1', color: '#4338ca', weight: 1, opacity: 1, fillOpacity: 0.7 }
+  },
+  litterBaskets: {
+    label: 'DSNY Litter Baskets',
+    color: '#B8860B',
+    kind: 'point',
+    descriptionId: 'litterBaskets',
+    endpoint: 'https://data.cityofnewyork.us/resource/8znf-7b2c.geojson',
+    geometryField: 'point',
+    limit: 1000,
+    circleOptions: { radius: 4, fillColor: '#B8860B', color: '#7A5A05', weight: 1, opacity: 1, fillOpacity: 0.75 }
   },
   surge2080: {
     label: 'Coastal Surge 2080s',
@@ -206,8 +221,7 @@ const NEIGHBORHOOD_LAYERS = {
     nhoodLayer('east-harlem', 'coolIt'),
     nhoodLayer('east-harlem', 'treeCanopy'),
     nhoodLayer('east-harlem', 'greenInfra'),
-    nhoodLayer('east-harlem', 'cloudburst'),
-    nhoodLayer('east-harlem', 'cso')
+    nhoodLayer('east-harlem', 'litterBaskets')
   ],
   soundview: [
     nhoodLayer('soundview', 'cloudburst'),
@@ -234,8 +248,8 @@ const NEIGHBORHOOD_LAYERS = {
 
 const PROJECT_LAYER_MAP = {
   'african-elephants': 'east-harlem--coolIt',
-  'alaskan-brown-bears': ['east-harlem--treeCanopy', 'east-harlem--greenInfra', 'east-harlem--cloudburst'],
-  'blue-whales': ['east-harlem--cloudburst', 'east-harlem--cso'],
+  'alaskan-brown-bears': ['east-harlem--treeCanopy', 'east-harlem--greenInfra'],
+  'blue-whales': 'east-harlem--litterBaskets',
   'giant-canoes': ['soundview--cloudburst', 'soundview--greenInfra'],
   'giant-sequoias': 'soundview--brownfields',
   'gorillas': ['flushing--cloudburst', 'flushing--cso'],
