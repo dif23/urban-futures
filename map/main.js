@@ -116,6 +116,11 @@ const LAYER_DESCRIPTIONS = {
     title: 'NYCHA Footprints',
     body: 'NYCHA public housing development polygons, used as the base layer for CLIM-ALIGN and other public-housing retrofit analysis.',
     source: 'NYC Open Data – NYCHA Public Housing Developments'
+  },
+  asthma: {
+    title: 'Adults with Asthma',
+    body: 'An estimated 15.3% of adults reported ever being diagnosed with asthma in the South Bronx UHF34 health-survey zone, which includes Soundview. This is the finest geography DOHMH publishes for this measure, so the shaded area reflects the broader zone rather than Soundview alone.',
+    source: 'NYC Community Health Survey, 2021 – DOHMH Environment & Health Data Portal'
   }
 };
 
@@ -208,6 +213,14 @@ const BASE_NEIGHBORHOOD_LAYER_DEFS = {
     endpoint: 'https://data.cityofnewyork.us/resource/phvi-damg.geojson',
     limit: 1000,
     style: { color: '#C8373A', weight: 1.5, opacity: 0.9, fillColor: '#C8373A', fillOpacity: 0.28 }
+  },
+  asthma: {
+    label: 'Adults with Asthma (%)',
+    color: '#D97706',
+    kind: 'geojson',
+    descriptionId: 'asthma',
+    fetchUrl: 'data/soundview-asthma.geojson',
+    style: { color: '#D97706', weight: 1.5, opacity: 0.9, fillColor: '#D97706', fillOpacity: 0.3 }
   }
 };
 
@@ -226,7 +239,8 @@ const NEIGHBORHOOD_LAYERS = {
   soundview: [
     nhoodLayer('soundview', 'cloudburst'),
     nhoodLayer('soundview', 'greenInfra'),
-    nhoodLayer('soundview', 'brownfields')
+    nhoodLayer('soundview', 'brownfields'),
+    nhoodLayer('soundview', 'asthma')
   ],
   flushing: [
     nhoodLayer('flushing', 'cloudburst'),
@@ -252,6 +266,7 @@ const PROJECT_LAYER_MAP = {
   'blue-whales': 'east-harlem--litterBaskets',
   'giant-canoes': ['soundview--cloudburst', 'soundview--greenInfra'],
   'giant-sequoias': 'soundview--brownfields',
+  'giant-squids': 'soundview--asthma',
   'gorillas': ['flushing--cloudburst', 'flushing--cso'],
   'hadrosaur-footprints': ['flushing--greenInfra', 'flushing--cso', 'flushing--cloudburst'],
   'king-penguins': ['flushing--greenInfra', 'flushing--cso'],
