@@ -123,8 +123,8 @@ const LAYER_DESCRIPTIONS = {
     source: 'NYC Open Data – Hydrant Map (2026)'
   },
   treeCanopy: {
-    title: 'Street Trees',
-    body: 'Live tree inventory points showing local tree presence, species, and condition. This is NYC Parks Forestry\'s continuously updated tree inventory, which covers far more trees than the older one-time 2015 census and gives tree-equity and urban forestry projects a closer visual match than rain-garden infrastructure alone.',
+    title: 'Tree Census',
+    body: 'Live tree inventory points showing local tree presence, species, and condition. This is NYC Parks Forestry\'s continuously updated tree inventory, giving tree-equity and urban forestry projects a closer visual match than rain-garden infrastructure alone.',
     source: 'NYC Parks – Forestry Tree Points'
   },
   brownfields: {
@@ -139,7 +139,7 @@ const LAYER_DESCRIPTIONS = {
   },
   adultAsthmaHosp: {
     title: 'Adult Asthma Hospitalizations',
-    body: 'Average annual rate of asthma-related hospitalizations among adults, by neighborhood tabulation area (NTA), 2012–2014. The two NTAs covering Soundview see between 44 and 50 hospitalizations per 10,000 adults per year — darker fill indicates a higher rate.',
+    body: 'Average annual rate of asthma-related hospitalizations among adults, by neighborhood tabulation area (NTA), 2012–2014. The three NTAs covering Soundview see between 40 and 50 hospitalizations per 10,000 adults per year — darker fill indicates a higher rate.',
     source: 'NYC DOHMH Environment & Health Data Portal — Asthma hospitalizations (adults), by NTA'
   },
   underutilizedSites: {
@@ -258,7 +258,7 @@ const BASE_NEIGHBORHOOD_LAYER_DEFS = {
     circleOptions: { radius: 3, fillColor: '#DC2626', color: '#991B1B', weight: 0.8, opacity: 1, fillOpacity: 0.75 }
   },
   treeCanopy: {
-    label: 'Street Trees',
+    label: 'Tree Census',
     color: '#2F7D32',
     kind: 'point',
     descriptionId: 'treeCanopy',
