@@ -767,11 +767,9 @@ function showNeighborhoodPanel(neighborhoodId) {
       <div class="uf-map-project-card${p.isWinner ? ' uf-map-project-card--winner' : ''}${hasLayer ? ' uf-map-project-card--linked' : ''}"
            id="uf-nhood-card-${p.id}"
            ${hasLayer ? `onclick="onProjectCardClick('${p.id}')"` : ''}>
-        ${p.isWinner ? `<span class="uf-map-winner-tag">${p.isWinnerCategory}</span>` : ''}
         <p class="uf-map-project-title">${projectTitle}</p>
         <p class="uf-map-project-team">${p.team}</p>
         <p class="uf-map-project-desc">${p.description}</p>
-        ${hasLayer ? `<span class="uf-map-layer-hint">Click to explore layer &#8594;</span>` : ''}
       </div>
     `;
   }).join('');
