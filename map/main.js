@@ -99,7 +99,7 @@ const LAYER_DESCRIPTIONS = {
   },
   floodComplaints311: {
     title: '311 Flood Complaints',
-    body: 'NYC 311 service requests reporting street flooding, catch basin flooding, and highway flooding from 2020 through the present. Each point is a resident-reported flooding incident, used to communicate lived flood impact alongside modeled cloudburst risk.',
+    body: 'NYC 311 service requests reporting street flooding, catch basin flooding, and highway flooding from 2020 through the present. Each point is a resident-reported flooding incident, used to communicate lived flood impact directly from residents\' own reports.',
     source: 'NYC 311 Service Requests from 2020 to Present'
   },
   surge2080: {
@@ -122,11 +122,6 @@ const LAYER_DESCRIPTIONS = {
     body: 'NYC fire hydrant locations, used to identify candidate sites for hydrant spray caps during extreme heat.',
     source: 'NYC Open Data – Hydrant Map (2026)'
   },
-  treeCensus2015: {
-    title: 'Tree Census',
-    body: 'Street tree locations from the 2015 NYC Parks street tree census, used as a base network for emergency evacuation route modeling.',
-    source: 'NYC Parks – 2015 Street Tree Census'
-  },
   treeCanopy: {
     title: 'Street Trees',
     body: 'Live tree inventory points showing local tree presence, species, and condition. This is NYC Parks Forestry\'s continuously updated tree inventory, which covers far more trees than the older one-time 2015 census and gives tree-equity and urban forestry projects a closer visual match than rain-garden infrastructure alone.',
@@ -139,13 +134,13 @@ const LAYER_DESCRIPTIONS = {
   },
   nycha: {
     title: 'NYCHA Communities',
-    body: 'NYCHA public housing development polygons, used as the base layer for CLIM-ALIGN and other public-housing retrofit analysis.',
+    body: 'The New York City Housing Authority (NYCHA) is the nation\'s largest public housing landlord, providing affordable housing to hundreds of thousands of low- and moderate-income New Yorkers across the five boroughs. This layer shows the footprints of individual NYCHA housing developments — the building complexes and grounds that make up each community — used as the base layer for CLIM-ALIGN and other public-housing retrofit analysis, since these communities are often disproportionately exposed to climate risk and have historically received less investment in resilience upgrades.',
     source: 'NYC Open Data – NYCHA Public Housing Developments'
   },
-  childAsthmaED: {
-    title: 'Child Asthma ED Visits',
-    body: 'Emergency department visits for asthma among children ages 5-17, by neighborhood tabulation area (NTA), averaged annually over 2017–2019. The two NTAs covering Soundview see between 240 and 252 visits per 10,000 children per year — darker blue indicates a higher visit rate.',
-    source: 'NYC DOHMH Environment & Health Data Portal — Asthma ED visits (age 5-17), by NTA'
+  adultAsthmaHosp: {
+    title: 'Adult Asthma Hospitalizations',
+    body: 'Average annual rate of asthma-related hospitalizations among adults, by neighborhood tabulation area (NTA), 2012–2014. The two NTAs covering Soundview see between 44 and 50 hospitalizations per 10,000 adults per year — darker fill indicates a higher rate.',
+    source: 'NYC DOHMH Environment & Health Data Portal — Asthma hospitalizations (adults), by NTA'
   },
   underutilizedSites: {
     title: 'Underutilized Sites',
@@ -173,6 +168,16 @@ const BASE_NEIGHBORHOOD_LAYER_DEFS = {
     limit: 500,
     circleOptions: { radius: 5, fillColor: '#22c55e', color: '#16a34a', weight: 1.5, opacity: 1, fillOpacity: 0.9 }
   },
+  greenInfraAll: {
+    label: 'Green Infrastructure',
+    color: '#22c55e',
+    kind: 'point',
+    descriptionId: 'greenInfra',
+    endpoint: 'https://data.cityofnewyork.us/resource/df32-vzax.geojson',
+    geometryField: 'the_geom',
+    limit: 500,
+    circleOptions: { radius: 5, fillColor: '#22c55e', color: '#16a34a', weight: 1.5, opacity: 1, fillOpacity: 0.9 }
+  },
   cso: {
     label: 'CSO Context',
     color: '#6366f1',
@@ -190,6 +195,7 @@ const BASE_NEIGHBORHOOD_LAYER_DEFS = {
     kind: 'point',
     descriptionId: 'csoLocations',
     fetchUrl: 'data/nyc-cso-outfalls.geojson',
+    bufferMeters: 150,
     circleOptions: { radius: 5, fillColor: '#7C3AED', color: '#4C1D95', weight: 1, opacity: 1, fillOpacity: 0.85 }
   },
   floodNetSensors: {
@@ -251,18 +257,6 @@ const BASE_NEIGHBORHOOD_LAYER_DEFS = {
     limit: 1500,
     circleOptions: { radius: 3, fillColor: '#DC2626', color: '#991B1B', weight: 0.8, opacity: 1, fillOpacity: 0.75 }
   },
-  treeCensus2015: {
-    label: 'Tree Census',
-    color: '#2F7D32',
-    kind: 'point',
-    descriptionId: 'treeCensus2015',
-    endpoint: 'https://data.cityofnewyork.us/resource/uvpi-gqnh.geojson',
-    latField: 'latitude',
-    lngField: 'longitude',
-    where: "status='Alive'",
-    limit: 5000,
-    circleOptions: { radius: 3, fillColor: '#2F7D32', color: '#1B5E20', weight: 0.8, opacity: 0.9, fillOpacity: 0.65 }
-  },
   treeCanopy: {
     label: 'Street Trees',
     color: '#2F7D32',
@@ -294,15 +288,15 @@ const BASE_NEIGHBORHOOD_LAYER_DEFS = {
     limit: 1000,
     style: { color: '#C8373A', weight: 1.5, opacity: 0.9, fillColor: '#C8373A', fillOpacity: 0.28 }
   },
-  childAsthmaED: {
-    label: 'Child Asthma ED Visits',
+  adultAsthmaHosp: {
+    label: 'Adult Asthma Hospitalizations',
     color: '#1E3A8A',
     kind: 'geojson',
-    descriptionId: 'childAsthmaED',
-    fetchUrl: 'data/soundview-child-asthma-ed.geojson',
+    descriptionId: 'adultAsthmaHosp',
+    fetchUrl: 'data/soundview-adult-asthma-hosp.geojson',
     style: (feature) => {
-      const rate = (feature.properties && feature.properties.rate_per_10k_children) || 200;
-      const t = Math.max(0, Math.min(1, (rate - 200) / (270 - 200)));
+      const rate = (feature.properties && feature.properties.rate_per_10k_adults) || 40;
+      const t = Math.max(0, Math.min(1, (rate - 40) / (55 - 40)));
       const lerp = (a, b) => Math.round(a + (b - a) * t);
       const fillColor = `rgb(${lerp(191, 30)}, ${lerp(219, 58)}, ${lerp(254, 138)})`;
       return { color: '#1E3A8A', weight: 1.5, opacity: 0.9, fillColor, fillOpacity: 0.65 };
@@ -330,7 +324,7 @@ const NEIGHBORHOOD_LAYERS = {
     nhoodLayer('east-harlem', 'litterBaskets')
   ],
   soundview: [
-    nhoodLayer('soundview', 'childAsthmaED'),
+    nhoodLayer('soundview', 'adultAsthmaHosp'),
     nhoodLayer('soundview', 'underutilizedSites')
   ],
   flushing: [
@@ -341,13 +335,11 @@ const NEIGHBORHOOD_LAYERS = {
   brownsville: [
     nhoodLayer('brownsville', 'nycha'),
     nhoodLayer('brownsville', 'fireHydrants'),
-    nhoodLayer('brownsville', 'treeCensus2015')
+    nhoodLayer('brownsville', 'treeCanopy')
   ],
   stapleton: [
-    nhoodLayer('stapleton', 'treeCensus2015'),
-    nhoodLayer('stapleton', 'cloudburst'),
-    nhoodLayer('stapleton', 'surge2080'),
-    nhoodLayer('stapleton', 'greenInfra'),
+    nhoodLayer('stapleton', 'treeCanopy'),
+    nhoodLayer('stapleton', 'greenInfraAll'),
     nhoodLayer('stapleton', 'floodNetSensors')
   ]
 };
@@ -358,15 +350,15 @@ const PROJECT_LAYER_MAP = {
   'blue-whales': 'east-harlem--litterBaskets',
   'giant-canoes': 'soundview--underutilizedSites',
   'giant-sequoias': 'soundview--underutilizedSites',
-  'giant-squids': 'soundview--childAsthmaED',
+  'giant-squids': 'soundview--adultAsthmaHosp',
   'gorillas': 'flushing--floodComplaints311',
   'hadrosaur-footprints': 'flushing--greenInfra',
   'king-penguins': 'flushing--csoLocations',
   'komodo-dragons': 'brownsville--fireHydrants',
-  'megalodons': 'brownsville--treeCensus2015',
+  'megalodons': 'brownsville--treeCanopy',
   'moai-statues': 'brownsville--nycha',
-  'sperm-whales': 'stapleton--treeCensus2015',
-  'stars-of-india': 'stapleton--greenInfra',
+  'sperm-whales': 'stapleton--treeCanopy',
+  'stars-of-india': 'stapleton--greenInfraAll',
   'titanosaurs': 'stapleton--floodNetSensors'
 };
 
@@ -573,8 +565,14 @@ function getPolygonBounds(polygon) {
   return polygon ? L.geoJSON(polygon).getBounds() : null;
 }
 
-function neighborhoodFeature(polygon) {
-  return polygon ? { type: 'Feature', properties: {}, geometry: polygon } : null;
+function neighborhoodFeature(polygon, bufferMeters) {
+  if (!polygon) return null;
+  const feature = { type: 'Feature', properties: {}, geometry: polygon };
+  if (bufferMeters && window.turf) {
+    try { return turf.buffer(feature, bufferMeters, { units: 'meters' }); }
+    catch (_) { return feature; }
+  }
+  return feature;
 }
 
 function featureCoordinates(feature) {
@@ -638,8 +636,8 @@ function clipFeatureToNeighborhood(feature, nhoodFeature) {
   return featureTouchesNeighborhood(feature, nhoodFeature) ? feature : null;
 }
 
-function constrainGeoJsonToNeighborhood(data, polygon) {
-  const nhoodFeature = neighborhoodFeature(polygon);
+function constrainGeoJsonToNeighborhood(data, polygon, bufferMeters) {
+  const nhoodFeature = neighborhoodFeature(polygon, bufferMeters);
   if (!nhoodFeature || !data || !Array.isArray(data.features)) return data;
   data.features = data.features
     .map(feature => clipFeatureToNeighborhood(feature, nhoodFeature))
@@ -728,7 +726,7 @@ function fetchAndAddNeighborhoodLayer(cfg, polygon) {
     })
     .then(data => {
       normalizePointGeometry(data, cfg);
-      constrainGeoJsonToNeighborhood(data, polygon);
+      constrainGeoJsonToNeighborhood(data, polygon, cfg.bufferMeters);
       if (!neighborhoodSpecificLayers[cfg.id]) {
         neighborhoodSpecificLayers[cfg.id] = L.geoJSON(data, {
           style: cfg.style,
