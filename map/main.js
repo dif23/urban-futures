@@ -232,7 +232,6 @@ const NEIGHBORHOOD_LAYERS = {
   'east-harlem': [
     nhoodLayer('east-harlem', 'coolIt'),
     nhoodLayer('east-harlem', 'treeCanopy'),
-    nhoodLayer('east-harlem', 'greenInfra'),
     nhoodLayer('east-harlem', 'litterBaskets')
   ],
   soundview: [
@@ -261,7 +260,7 @@ const NEIGHBORHOOD_LAYERS = {
 
 const PROJECT_LAYER_MAP = {
   'african-elephants': 'east-harlem--coolIt',
-  'alaskan-brown-bears': ['east-harlem--treeCanopy', 'east-harlem--greenInfra'],
+  'alaskan-brown-bears': 'east-harlem--treeCanopy',
   'blue-whales': 'east-harlem--litterBaskets',
   'giant-canoes': ['soundview--cloudburst', 'soundview--greenInfra'],
   'giant-sequoias': 'soundview--brownfields',
@@ -293,6 +292,7 @@ let activeProjectId = null;
 
 let neighborhoodLayer = null;
 let neighborhoodLabelGroup = null;
+let neighborhoodLabelMarkers = {};
 let overlayLayers = {};
 let cloudburst_data = null;
 let neighborhoodSpecificLayers = {};
@@ -385,7 +385,7 @@ function addNeighborhoodLayer() {
       neighborhoodLabelGroup = L.layerGroup();
       gj.features.forEach(f => {
         const center = L.geoJSON(f).getBounds().getCenter();
-        L.marker(center, {
+        const marker = L.marker(center, {
           icon: L.divIcon({
             className: 'uf-map-nhood-label',
             html: `<span class="uf-map-nhood-label-inner"><span class="uf-map-nhood-label-box">${f.properties.name}</span><span class="uf-map-nhood-label-tail"></span></span>`,
@@ -394,6 +394,7 @@ function addNeighborhoodLayer() {
           }),
           interactive: false
         }).addTo(neighborhoodLabelGroup);
+        neighborhoodLabelMarkers[f.properties.id] = marker;
       });
       neighborhoodLabelGroup.addTo(map);
     });
@@ -750,7 +751,11 @@ function showNeighborhoodPanel(neighborhoodId) {
   const nhood = NEIGHBORHOODS.find(n => n.id === neighborhoodId);
   if (!nhood) return;
 
-  if (activeNeighborhood) hideNeighborhoodLayers(activeNeighborhood);
+  if (activeNeighborhood) {
+    hideNeighborhoodLayers(activeNeighborhood);
+    const prevLabel = neighborhoodLabelMarkers[activeNeighborhood];
+    if (prevLabel && neighborhoodLabelGroup) neighborhoodLabelGroup.addLayer(prevLabel);
+  }
   activeNeighborhood = neighborhoodId;
 
   // Leaflet flyTo uses [lat, lng]
@@ -758,8 +763,15 @@ function showNeighborhoodPanel(neighborhoodId) {
   map.flyTo([lat, lng], 13, { duration: 1 });
 
   document.getElementById('uf-city-overview').setAttribute('hidden', '');
+  document.getElementById('uf-info-name').textContent = nhood.name;
+  document.getElementById('uf-info-borough').textContent = nhood.borough;
+  document.getElementById('uf-info-desc').textContent = nhood.description;
+  document.getElementById('uf-nhood-info').removeAttribute('hidden');
   document.getElementById('uf-map-back-row').removeAttribute('hidden');
   document.getElementById('uf-map-neighborhood-hint').setAttribute('hidden', '');
+
+  const activeLabel = neighborhoodLabelMarkers[neighborhoodId];
+  if (activeLabel && neighborhoodLabelGroup) neighborhoodLabelGroup.removeLayer(activeLabel);
 
   showNeighborhoodLayers(neighborhoodId);
 
@@ -819,13 +831,18 @@ function onProjectCardClick(projectId) {
 }
 
 function closeNeighborhoodPanel() {
-  if (activeNeighborhood) hideNeighborhoodLayers(activeNeighborhood);
+  if (activeNeighborhood) {
+    hideNeighborhoodLayers(activeNeighborhood);
+    const prevLabel = neighborhoodLabelMarkers[activeNeighborhood];
+    if (prevLabel && neighborhoodLabelGroup) neighborhoodLabelGroup.addLayer(prevLabel);
+  }
   activeNeighborhood = null;
   activeProjectId = null;
 
   const [lng, lat] = SITE_CONFIG.mapCenter;
   map.flyTo([lat, lng], Math.round(SITE_CONFIG.mapZoom), { duration: 0.8 });
 
+  document.getElementById('uf-nhood-info').setAttribute('hidden', '');
   document.getElementById('uf-city-overview').removeAttribute('hidden');
   document.getElementById('uf-map-back-row').setAttribute('hidden', '');
   document.getElementById('uf-map-neighborhood-hint').removeAttribute('hidden');
