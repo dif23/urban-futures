@@ -121,6 +121,11 @@ const LAYER_DESCRIPTIONS = {
     title: 'Adults with Asthma',
     body: 'An estimated 15.3% of adults reported ever being diagnosed with asthma in the South Bronx UHF34 health-survey zone, which includes Soundview. This is the finest geography DOHMH publishes for this measure, so the shaded area reflects the broader zone rather than Soundview alone.',
     source: 'NYC Community Health Survey, 2021 – DOHMH Environment & Health Data Portal'
+  },
+  underutilizedSites: {
+    title: 'Underutilized Sites',
+    body: 'Strategic underutilized/redevelopment site candidates identified by Youth Ministries for Peace and Justice (YMPJ) across their Brownfield Opportunity Area study, filtered to the sites that fall within Soundview.',
+    source: 'Strategic Underutilized Sites, YMPJ (2025)'
   }
 };
 
@@ -220,6 +225,14 @@ const BASE_NEIGHBORHOOD_LAYER_DEFS = {
     descriptionId: 'asthma',
     fetchUrl: 'data/soundview-asthma.geojson',
     style: { color: '#D97706', weight: 1.5, opacity: 0.9, fillColor: '#D97706', fillOpacity: 0.3 }
+  },
+  underutilizedSites: {
+    label: 'Underutilized Sites',
+    color: '#1A1A1A',
+    kind: 'point',
+    descriptionId: 'underutilizedSites',
+    fetchUrl: 'data/soundview-underutilized-sites.geojson',
+    circleOptions: { radius: 5, fillColor: '#1A1A1A', color: '#000000', weight: 1, opacity: 1, fillOpacity: 0.85 }
   }
 };
 
@@ -238,7 +251,8 @@ const NEIGHBORHOOD_LAYERS = {
     nhoodLayer('soundview', 'cloudburst'),
     nhoodLayer('soundview', 'greenInfra'),
     nhoodLayer('soundview', 'brownfields'),
-    nhoodLayer('soundview', 'asthma')
+    nhoodLayer('soundview', 'asthma'),
+    nhoodLayer('soundview', 'underutilizedSites')
   ],
   flushing: [
     nhoodLayer('flushing', 'cloudburst'),
@@ -262,7 +276,7 @@ const PROJECT_LAYER_MAP = {
   'african-elephants': 'east-harlem--coolIt',
   'alaskan-brown-bears': 'east-harlem--treeCanopy',
   'blue-whales': 'east-harlem--litterBaskets',
-  'giant-canoes': ['soundview--cloudburst', 'soundview--greenInfra'],
+  'giant-canoes': 'soundview--underutilizedSites',
   'giant-sequoias': 'soundview--brownfields',
   'giant-squids': 'soundview--asthma',
   'gorillas': ['flushing--cloudburst', 'flushing--cso'],

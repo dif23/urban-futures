@@ -258,7 +258,7 @@ const SITE_CONFIG = {
     { name: "NYC Heat Vulnerability Index", url: "https://github.com/NewYorkCityCouncil/heat_map", org: "NYC City Council" },
     { name: "Sea Level Rise Maps – 2050s", url: "https://data.cityofnewyork.us/Environment/Sea-Level-Rise-Maps-2050s-100-year-Floodplain-/hbw8-2bah", org: "NYC Open Data" },
     { name: "Sea Level Rise Maps – 2080s", url: "https://data.cityofnewyork.us/Environment/Sea-Level-Rise-Maps-2080s-100-year-Floodplain-/ek8y-fsqz/about_data", org: "NYC Open Data" },
-    { name: "NYC Street Tree Census", url: "https://data.cityofnewyork.us/Environment/2015-Street-Tree-Census-Tree-Data/uvpi-gqnh", org: "NYC Parks" },
+    { name: "Forestry Tree Points (live inventory)", url: "https://data.cityofnewyork.us/Environment/Forestry-Tree-Points/hn5i-inap/about_data", org: "NYC Parks" },
     { name: "PFIRM Flood Insurance Rate Maps", url: "https://www.arcgis.com/apps/webappviewer/index.html?id=1c37d271fba14163bbb520517153d6d5", org: "FEMA / NYC" },
     { name: "CorrDiff Downscaled Climate Dataset", url: "https://leap.columbia.edu", org: "LEAP / NVIDIA" },
     { name: "FloodNet NYC Sensor Data", url: "https://www.floodnet.nyc", org: "FloodNet NYC" }
