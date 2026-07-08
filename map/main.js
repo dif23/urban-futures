@@ -112,6 +112,16 @@ const LAYER_DESCRIPTIONS = {
     body: 'Cooling resources from the Cool It! NYC program, including cooling sites, misting stations, and hydrant spray-cap locations used by the heat-access teams.',
     source: 'NYC Open Data – Cool It! NYC 2020 Cooling Sites'
   },
+  fireHydrants: {
+    title: 'Fire Hydrants',
+    body: 'NYC fire hydrant locations, used to identify candidate sites for hydrant spray caps during extreme heat.',
+    source: 'NYC Open Data – Hydrant Map (2026)'
+  },
+  treeCensus2015: {
+    title: 'Tree Census',
+    body: 'Street tree locations from the 2015 NYC Parks street tree census, used as a base network for emergency evacuation route modeling.',
+    source: 'NYC Parks – 2015 Street Tree Census'
+  },
   treeCanopy: {
     title: 'Street Trees',
     body: 'Live tree inventory points showing local tree presence, species, and condition. This is NYC Parks Forestry\'s continuously updated tree inventory, which covers far more trees than the older one-time 2015 census and gives tree-equity and urban forestry projects a closer visual match than rain-garden infrastructure alone.',
@@ -216,6 +226,28 @@ const BASE_NEIGHBORHOOD_LAYER_DEFS = {
     limit: 1000,
     circleOptions: { radius: 5, fillColor: '#00A6A6', color: '#047878', weight: 1.5, opacity: 1, fillOpacity: 0.85 }
   },
+  fireHydrants: {
+    label: 'Fire Hydrants',
+    color: '#DC2626',
+    kind: 'point',
+    descriptionId: 'fireHydrants',
+    endpoint: 'https://data.cityofnewyork.us/resource/5bgh-vtsn.geojson',
+    geometryField: 'the_geom',
+    limit: 1500,
+    circleOptions: { radius: 3, fillColor: '#DC2626', color: '#991B1B', weight: 0.8, opacity: 1, fillOpacity: 0.75 }
+  },
+  treeCensus2015: {
+    label: 'Tree Census',
+    color: '#2F7D32',
+    kind: 'point',
+    descriptionId: 'treeCensus2015',
+    endpoint: 'https://data.cityofnewyork.us/resource/uvpi-gqnh.geojson',
+    latField: 'latitude',
+    lngField: 'longitude',
+    where: "status='Alive'",
+    limit: 5000,
+    circleOptions: { radius: 3, fillColor: '#2F7D32', color: '#1B5E20', weight: 0.8, opacity: 0.9, fillOpacity: 0.65 }
+  },
   treeCanopy: {
     label: 'Street Trees',
     color: '#2F7D32',
@@ -296,7 +328,9 @@ const NEIGHBORHOOD_LAYERS = {
   brownsville: [
     nhoodLayer('brownsville', 'coolIt'),
     nhoodLayer('brownsville', 'cloudburst'),
-    nhoodLayer('brownsville', 'nycha')
+    nhoodLayer('brownsville', 'nycha'),
+    nhoodLayer('brownsville', 'fireHydrants'),
+    nhoodLayer('brownsville', 'treeCensus2015')
   ],
   stapleton: [
     nhoodLayer('stapleton', 'treeCanopy'),
@@ -316,8 +350,8 @@ const PROJECT_LAYER_MAP = {
   'gorillas': 'flushing--floodComplaints311',
   'hadrosaur-footprints': 'flushing--greenInfra',
   'king-penguins': 'flushing--csoLocations',
-  'komodo-dragons': 'brownsville--coolIt',
-  'megalodons': 'brownsville--cloudburst',
+  'komodo-dragons': 'brownsville--fireHydrants',
+  'megalodons': 'brownsville--treeCensus2015',
   'moai-statues': 'brownsville--nycha',
   'sperm-whales': 'stapleton--treeCanopy',
   'stars-of-india': ['stapleton--cloudburst', 'stapleton--greenInfra'],
