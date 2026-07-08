@@ -133,7 +133,7 @@ const LAYER_DESCRIPTIONS = {
     source: 'NYS DEC – Environmental Remediation Sites'
   },
   nycha: {
-    title: 'NYCHA Footprints',
+    title: 'NYCHA Communities',
     body: 'NYCHA public housing development polygons, used as the base layer for CLIM-ALIGN and other public-housing retrofit analysis.',
     source: 'NYC Open Data – NYCHA Public Housing Developments'
   },
@@ -271,7 +271,7 @@ const BASE_NEIGHBORHOOD_LAYER_DEFS = {
     circleOptions: { radius: 5, fillColor: '#8B5A2B', color: '#5D3918', weight: 1.3, opacity: 1, fillOpacity: 0.82 }
   },
   nycha: {
-    label: 'NYCHA Footprints',
+    label: 'NYCHA Communities',
     color: '#C8373A',
     kind: 'geojson',
     descriptionId: 'nycha',
@@ -319,15 +319,12 @@ const NEIGHBORHOOD_LAYERS = {
     nhoodLayer('soundview', 'underutilizedSites')
   ],
   flushing: [
-    nhoodLayer('flushing', 'cloudburst'),
     nhoodLayer('flushing', 'greenInfra'),
-    nhoodLayer('flushing', 'cso'),
     nhoodLayer('flushing', 'floodComplaints311'),
     nhoodLayer('flushing', 'csoLocations')
   ],
   brownsville: [
     nhoodLayer('brownsville', 'coolIt'),
-    nhoodLayer('brownsville', 'cloudburst'),
     nhoodLayer('brownsville', 'nycha'),
     nhoodLayer('brownsville', 'fireHydrants'),
     nhoodLayer('brownsville', 'treeCensus2015')
