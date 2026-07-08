@@ -12,7 +12,7 @@ const DCP_TILES = 'https://tiles.arcgis.com/tiles/GfwWNkhOj9bNBqoJ/arcgis/rest/s
 const OVERLAY_SOURCES = {
   cloudburst: {
     kind: 'geojson',
-    url: `${LEAP_SOURCE_RAW}/data/cloudburst_moderate_current.geojson`,
+    url: 'data/cloudburst_extreme_2080.geojson',
     color: '#5B8DD9', opacity: 0.55
   },
   heat: {
@@ -69,8 +69,8 @@ const LAYER_DESCRIPTIONS = {
   },
   cloudburst: {
     title: 'Cloudburst Flooding 2080s',
-    body: 'A cloudburst is a sudden downpour that can flood streets and basements. This map shows NYC DEP’s projections of where cloudburst flooding will occur more frequently in the future. It is important to note that cloudbursts happen in specific locations because of the concentration of rainfall – while one neighborhood may experience flooding, another may not.',
-    source: 'NYC DEP Stormwater Projections'
+    body: 'A cloudburst is a sudden downpour that can flood streets and basements. This layer shows NYC DEP\'s Extreme Flood scenario (3.66 inches/hour of rainfall) combined with projected 2080 sea level rise — the most severe of DEP\'s published stormwater flood scenarios. It is important to note that cloudbursts happen in specific locations because of the concentration of rainfall – while one neighborhood may experience flooding, another may not.',
+    source: 'NYC DEP – NYC Stormwater Flood Maps (Extreme Flood, 2080 Sea Level Rise)'
   },
   greenInfra: {
     title: 'Green Infrastructure',
@@ -81,6 +81,11 @@ const LAYER_DESCRIPTIONS = {
     title: 'Combined Sewer Context',
     body: 'Green infrastructure assets in combined sewer drainage areas. These points show stormwater interventions most directly tied to reducing combined sewer overflow pressure during heavy rain.',
     source: 'NYC DEP – Green Infrastructure Map'
+  },
+  csoLocations: {
+    title: 'CSO Locations',
+    body: 'Permitted combined sewer overflow (CSO) outfall points where excess stormwater and untreated sewage discharge directly into local waterways during heavy rain, filtered to those near Flushing Bay and Flushing River/Creek.',
+    source: 'NYS DEC, CSO Outfalls (2026)'
   },
   litterBaskets: {
     title: 'DSNY Litter Baskets',
@@ -163,6 +168,14 @@ const BASE_NEIGHBORHOOD_LAYER_DEFS = {
     where: "sewer_type='Combined'",
     limit: 1000,
     circleOptions: { radius: 4, fillColor: '#6366f1', color: '#4338ca', weight: 1, opacity: 1, fillOpacity: 0.7 }
+  },
+  csoLocations: {
+    label: 'CSO Locations',
+    color: '#7C3AED',
+    kind: 'point',
+    descriptionId: 'csoLocations',
+    fetchUrl: 'data/nyc-cso-outfalls.geojson',
+    circleOptions: { radius: 5, fillColor: '#7C3AED', color: '#4C1D95', weight: 1, opacity: 1, fillOpacity: 0.85 }
   },
   floodComplaints311: {
     label: '311 Flood Complaints',
@@ -277,7 +290,8 @@ const NEIGHBORHOOD_LAYERS = {
     nhoodLayer('flushing', 'cloudburst'),
     nhoodLayer('flushing', 'greenInfra'),
     nhoodLayer('flushing', 'cso'),
-    nhoodLayer('flushing', 'floodComplaints311')
+    nhoodLayer('flushing', 'floodComplaints311'),
+    nhoodLayer('flushing', 'csoLocations')
   ],
   brownsville: [
     nhoodLayer('brownsville', 'coolIt'),
@@ -300,8 +314,8 @@ const PROJECT_LAYER_MAP = {
   'giant-sequoias': 'soundview--underutilizedSites',
   'giant-squids': 'soundview--childAsthmaED',
   'gorillas': 'flushing--floodComplaints311',
-  'hadrosaur-footprints': ['flushing--greenInfra', 'flushing--cso', 'flushing--cloudburst'],
-  'king-penguins': ['flushing--greenInfra', 'flushing--cso'],
+  'hadrosaur-footprints': 'flushing--greenInfra',
+  'king-penguins': 'flushing--csoLocations',
   'komodo-dragons': 'brownsville--coolIt',
   'megalodons': 'brownsville--cloudburst',
   'moai-statues': 'brownsville--nycha',
