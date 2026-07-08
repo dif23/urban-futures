@@ -116,13 +116,13 @@ const PROJECTS = [
   {
     id: "giant-squids",
     neighborhoodId: "soundview",
-    title: "Freight tax emissions simulator",
+    title: "Reducing Emissions on the Cross Bronx Expressway",
     team: "Giant Squids",
     description: "Modeled the emissions and health impact of a freight tax on the Cross-Bronx Expressway in Soundview using NYC DOT truck route data and EPA PM2.5 health-cost estimates. Built an interactive simulator showing how tax rates from $0 to $100 shift daily truck volume, air pollution, and public health outcomes for the neighborhood.",
     isWinner: false,
     tags: ["freight", "emissions", "public-health", "policy-simulation"],
     demoAvailable: false,
-    datasets: ["NYC DOT truck route data", "EPA PM2.5 health-cost estimates"]
+    datasets: ["NYC DOT truck route data", "EPA PM2.5 health-cost estimates", "NYC DOHMH Environment & Health Data Portal — Asthma ED visits by NTA, ages 5-17 (2017–2019)"]
   },
 
   // Flushing / Queens

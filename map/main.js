@@ -87,6 +87,11 @@ const LAYER_DESCRIPTIONS = {
     body: 'Locations and types of public litter baskets tracked by DSNY. Uneven basket distribution is linked to street litter and clogged catch basins, compounding flood risk in areas with aging sanitation infrastructure.',
     source: 'NYC DSNY – Litter Basket Map'
   },
+  floodComplaints311: {
+    title: '311 Flood Complaints',
+    body: 'NYC 311 service requests reporting street flooding, catch basin flooding, and highway flooding from 2020 through the present. Each point is a resident-reported flooding incident, used to communicate lived flood impact alongside modeled cloudburst risk.',
+    source: 'NYC 311 Service Requests from 2020 to Present'
+  },
   surge2080: {
     title: 'Coastal Surge 2080s',
     body: 'Storm surge is when high winds from a hurricane push water from the ocean inland such as during Hurricane Sandy in 2012. The FEMA PFIRM maps shows areas that could flood today, according to FEMA, for what is called a “100-year coastal storm.” Surge can also happen during smaller storms such as Nor’easters. The Coastal Surge 2080s map shows flooding that could happen 50 years from now based on projections by the NPCC.',
@@ -117,10 +122,10 @@ const LAYER_DESCRIPTIONS = {
     body: 'NYCHA public housing development polygons, used as the base layer for CLIM-ALIGN and other public-housing retrofit analysis.',
     source: 'NYC Open Data – NYCHA Public Housing Developments'
   },
-  asthma: {
-    title: 'Adults with Asthma',
-    body: 'An estimated 15.3% of adults reported ever being diagnosed with asthma in the South Bronx UHF34 health-survey zone, which includes Soundview. This is the finest geography DOHMH publishes for this measure, so the shaded area reflects the broader zone rather than Soundview alone.',
-    source: 'NYC Community Health Survey, 2021 – DOHMH Environment & Health Data Portal'
+  childAsthmaED: {
+    title: 'Child Asthma ED Visits',
+    body: 'Emergency department visits for asthma among children ages 5-17, by neighborhood tabulation area (NTA), averaged annually over 2017–2019. The two NTAs covering Soundview see between 240 and 252 visits per 10,000 children per year — darker blue indicates a higher visit rate.',
+    source: 'NYC DOHMH Environment & Health Data Portal — Asthma ED visits (age 5-17), by NTA'
   },
   underutilizedSites: {
     title: 'Underutilized Sites',
@@ -158,6 +163,17 @@ const BASE_NEIGHBORHOOD_LAYER_DEFS = {
     where: "sewer_type='Combined'",
     limit: 1000,
     circleOptions: { radius: 4, fillColor: '#6366f1', color: '#4338ca', weight: 1, opacity: 1, fillOpacity: 0.7 }
+  },
+  floodComplaints311: {
+    label: '311 Flood Complaints',
+    color: '#B91C1C',
+    kind: 'point',
+    descriptionId: 'floodComplaints311',
+    endpoint: 'https://data.cityofnewyork.us/resource/erm2-nwe9.geojson',
+    geometryField: 'location',
+    where: "complaint_type='Sewer' AND descriptor like '%Flooding%'",
+    limit: 1000,
+    circleOptions: { radius: 4, fillColor: '#B91C1C', color: '#7F1D1D', weight: 1, opacity: 1, fillOpacity: 0.75 }
   },
   litterBaskets: {
     label: 'DSNY Litter Baskets',
@@ -218,13 +234,19 @@ const BASE_NEIGHBORHOOD_LAYER_DEFS = {
     limit: 1000,
     style: { color: '#C8373A', weight: 1.5, opacity: 0.9, fillColor: '#C8373A', fillOpacity: 0.28 }
   },
-  asthma: {
-    label: 'Adults with Asthma (%)',
-    color: '#D97706',
+  childAsthmaED: {
+    label: 'Child Asthma ED Visits',
+    color: '#1E3A8A',
     kind: 'geojson',
-    descriptionId: 'asthma',
-    fetchUrl: 'data/soundview-asthma.geojson',
-    style: { color: '#D97706', weight: 1.5, opacity: 0.9, fillColor: '#D97706', fillOpacity: 0.3 }
+    descriptionId: 'childAsthmaED',
+    fetchUrl: 'data/soundview-child-asthma-ed.geojson',
+    style: (feature) => {
+      const rate = (feature.properties && feature.properties.rate_per_10k_children) || 200;
+      const t = Math.max(0, Math.min(1, (rate - 200) / (270 - 200)));
+      const lerp = (a, b) => Math.round(a + (b - a) * t);
+      const fillColor = `rgb(${lerp(191, 30)}, ${lerp(219, 58)}, ${lerp(254, 138)})`;
+      return { color: '#1E3A8A', weight: 1.5, opacity: 0.9, fillColor, fillOpacity: 0.65 };
+    }
   },
   underutilizedSites: {
     label: 'Underutilized Sites',
@@ -248,16 +270,14 @@ const NEIGHBORHOOD_LAYERS = {
     nhoodLayer('east-harlem', 'litterBaskets')
   ],
   soundview: [
-    nhoodLayer('soundview', 'cloudburst'),
-    nhoodLayer('soundview', 'greenInfra'),
-    nhoodLayer('soundview', 'brownfields'),
-    nhoodLayer('soundview', 'asthma'),
+    nhoodLayer('soundview', 'childAsthmaED'),
     nhoodLayer('soundview', 'underutilizedSites')
   ],
   flushing: [
     nhoodLayer('flushing', 'cloudburst'),
     nhoodLayer('flushing', 'greenInfra'),
-    nhoodLayer('flushing', 'cso')
+    nhoodLayer('flushing', 'cso'),
+    nhoodLayer('flushing', 'floodComplaints311')
   ],
   brownsville: [
     nhoodLayer('brownsville', 'coolIt'),
@@ -277,9 +297,9 @@ const PROJECT_LAYER_MAP = {
   'alaskan-brown-bears': 'east-harlem--treeCanopy',
   'blue-whales': 'east-harlem--litterBaskets',
   'giant-canoes': 'soundview--underutilizedSites',
-  'giant-sequoias': 'soundview--brownfields',
-  'giant-squids': 'soundview--asthma',
-  'gorillas': ['flushing--cloudburst', 'flushing--cso'],
+  'giant-sequoias': 'soundview--underutilizedSites',
+  'giant-squids': 'soundview--childAsthmaED',
+  'gorillas': 'flushing--floodComplaints311',
   'hadrosaur-footprints': ['flushing--greenInfra', 'flushing--cso', 'flushing--cloudburst'],
   'king-penguins': ['flushing--greenInfra', 'flushing--cso'],
   'komodo-dragons': 'brownsville--coolIt',

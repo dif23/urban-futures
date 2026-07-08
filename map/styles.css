@@ -227,8 +227,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 20px 24px;
-  border-top: 1px solid var(--muted);
+  margin-top: 16px;
 }
 
 .uf-map-layer-descriptions[hidden] { display: none; }
@@ -259,8 +258,7 @@
 
 /* ---- Neighborhood project cards ---- */
 .uf-map-nhood-projects {
-  border-top: 1px solid var(--muted);
-  padding-top: 16px;
+  margin-top: 16px;
 }
 
 .uf-map-nhood-projects[hidden] { display: none; }
