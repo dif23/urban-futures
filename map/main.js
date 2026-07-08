@@ -87,6 +87,11 @@ const LAYER_DESCRIPTIONS = {
     body: 'Permitted combined sewer overflow (CSO) outfall points where excess stormwater and untreated sewage discharge directly into local waterways during heavy rain, filtered to those near Flushing Bay and Flushing River/Creek.',
     source: 'NYS DEC, CSO Outfalls (2026)'
   },
+  floodNetSensors: {
+    title: 'Flood Net Sensors',
+    body: 'Locations of NYC FloodNet street-level flood sensors, which continuously measure the height of floodwater to support real-time flood detection and sensor-siting assessments.',
+    source: 'NYC FloodNet, Sensor Deployment Metadata (2026)'
+  },
   litterBaskets: {
     title: 'DSNY Litter Baskets',
     body: 'Locations and types of public litter baskets tracked by DSNY. Uneven basket distribution is linked to street litter and clogged catch basins, compounding flood risk in areas with aging sanitation infrastructure.',
@@ -186,6 +191,16 @@ const BASE_NEIGHBORHOOD_LAYER_DEFS = {
     descriptionId: 'csoLocations',
     fetchUrl: 'data/nyc-cso-outfalls.geojson',
     circleOptions: { radius: 5, fillColor: '#7C3AED', color: '#4C1D95', weight: 1, opacity: 1, fillOpacity: 0.85 }
+  },
+  floodNetSensors: {
+    label: 'Flood Net Sensors',
+    color: '#0891B2',
+    kind: 'point',
+    descriptionId: 'floodNetSensors',
+    endpoint: 'https://data.cityofnewyork.us/resource/kb2e-tjy3.geojson',
+    geometryField: 'location',
+    limit: 500,
+    circleOptions: { radius: 5, fillColor: '#0891B2', color: '#155E75', weight: 1, opacity: 1, fillOpacity: 0.85 }
   },
   floodComplaints311: {
     label: '311 Flood Complaints',
@@ -324,16 +339,16 @@ const NEIGHBORHOOD_LAYERS = {
     nhoodLayer('flushing', 'csoLocations')
   ],
   brownsville: [
-    nhoodLayer('brownsville', 'coolIt'),
     nhoodLayer('brownsville', 'nycha'),
     nhoodLayer('brownsville', 'fireHydrants'),
     nhoodLayer('brownsville', 'treeCensus2015')
   ],
   stapleton: [
-    nhoodLayer('stapleton', 'treeCanopy'),
+    nhoodLayer('stapleton', 'treeCensus2015'),
     nhoodLayer('stapleton', 'cloudburst'),
     nhoodLayer('stapleton', 'surge2080'),
-    nhoodLayer('stapleton', 'greenInfra')
+    nhoodLayer('stapleton', 'greenInfra'),
+    nhoodLayer('stapleton', 'floodNetSensors')
   ]
 };
 
@@ -350,9 +365,9 @@ const PROJECT_LAYER_MAP = {
   'komodo-dragons': 'brownsville--fireHydrants',
   'megalodons': 'brownsville--treeCensus2015',
   'moai-statues': 'brownsville--nycha',
-  'sperm-whales': 'stapleton--treeCanopy',
-  'stars-of-india': ['stapleton--cloudburst', 'stapleton--greenInfra'],
-  'titanosaurs': ['stapleton--cloudburst', 'stapleton--surge2080']
+  'sperm-whales': 'stapleton--treeCensus2015',
+  'stars-of-india': 'stapleton--greenInfra',
+  'titanosaurs': 'stapleton--floodNetSensors'
 };
 
 const NEIGHBORHOOD_COLORS = {
