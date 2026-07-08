@@ -383,17 +383,9 @@
           <!-- Title -->
           <div style="font-size: 18px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--secondary); margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--muted);">NYC Communities + Climate Risk</div>
 
-          <!-- Top teal card: swaps between city overview and neighborhood info -->
+          <!-- Top teal card: city overview (hidden once a neighborhood is selected) -->
           <div id="uf-city-overview" style="background-color: rgba(100, 185, 196, 0.2); padding: 20px; margin-bottom: 16px;">
             <p style="font-size: 16px; line-height: 1.5; color: var(--text); margin: 0;"><span style="font-weight: 700;">City Overview:</span> New York City has 250 to 300 neighborhoods, depending on how you draw the boundaries. These neighborhoods are represented by 59 Community Boards. While every neighborhood is implicated by climate change, how climate risk impacts neighborhoods varies because every community has a unique population and built environment. City government typically considers four risks in resilience planning – sea level rise, coastal storms, cloudburst, and extreme heat. You can view overlays of these risks in this map as well as the five neighborhoods that participated in "Urban Futures."</p>
-          </div>
-
-          <div id="uf-nhood-info" hidden style="background-color: rgba(100, 185, 196, 0.2); padding: 20px; margin-bottom: 16px;">
-            <div style="margin-bottom: 12px;">
-              <span id="uf-info-borough" style="font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--secondary);"></span>
-              <h3 id="uf-info-name" style="font-size: 20px; font-weight: 700; color: var(--text); margin: 4px 0 0;"></h3>
-            </div>
-            <p id="uf-info-desc" style="font-size: 16px; line-height: 1.5; color: var(--text); margin: 0;"></p>
           </div>
 
           <div id="uf-map-back-row" class="uf-map-back-row" hidden>
@@ -458,7 +450,7 @@
 
               <div id="uf-nhood-projects" class="uf-map-nhood-projects" hidden>
                 <div style="background-color: rgba(100, 185, 196, 0.2); padding: 20px; margin-bottom: 16px;">
-                  <p style="font-size: 16px; line-height: 1.5; color: var(--text); margin: 0;">The boxes below describe the projects participants created for each neighborhood. Click on the box to see an example of a dataset each team used.</p>
+                  <p style="font-size: 16px; line-height: 1.5; color: var(--text); margin: 0; text-align: center;">The boxes below describe the projects participants created for each neighborhood. Click on the box to see an example of a dataset each team used.</p>
                 </div>
                 <div id="uf-nhood-projects-inner" class="uf-map-nhood-projects-inner"></div>
               </div>

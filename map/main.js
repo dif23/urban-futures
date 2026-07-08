@@ -748,10 +748,6 @@ function showNeighborhoodPanel(neighborhoodId) {
   map.flyTo([lat, lng], 13, { duration: 1 });
 
   document.getElementById('uf-city-overview').setAttribute('hidden', '');
-  document.getElementById('uf-info-name').textContent = nhood.name;
-  document.getElementById('uf-info-borough').textContent = nhood.borough;
-  document.getElementById('uf-info-desc').textContent = nhood.description;
-  document.getElementById('uf-nhood-info').removeAttribute('hidden');
   document.getElementById('uf-map-back-row').removeAttribute('hidden');
   document.getElementById('uf-map-neighborhood-hint').setAttribute('hidden', '');
 
@@ -820,7 +816,6 @@ function closeNeighborhoodPanel() {
   const [lng, lat] = SITE_CONFIG.mapCenter;
   map.flyTo([lat, lng], Math.round(SITE_CONFIG.mapZoom), { duration: 0.8 });
 
-  document.getElementById('uf-nhood-info').setAttribute('hidden', '');
   document.getElementById('uf-city-overview').removeAttribute('hidden');
   document.getElementById('uf-map-back-row').setAttribute('hidden', '');
   document.getElementById('uf-map-neighborhood-hint').removeAttribute('hidden');
