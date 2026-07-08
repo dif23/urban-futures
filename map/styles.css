@@ -260,13 +260,14 @@
 /* ---- Neighborhood project cards ---- */
 .uf-map-nhood-projects {
   border-top: 1px solid var(--muted);
+  padding-top: 16px;
 }
 
 .uf-map-nhood-projects[hidden] { display: none; }
 
 .uf-map-nhood-projects-inner {
   display: grid;
-  gap: 0;
+  gap: 16px;
 }
 
 .uf-map-project-card {
@@ -331,18 +332,60 @@
   background: none !important;
   border: none !important;
   box-shadow: none !important;
+  pointer-events: none;
+}
+
+.uf-map-nhood-label-inner {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  white-space: nowrap;
+  transform: translate(-50%, -100%);
+}
+
+.uf-map-nhood-label-box {
+  background: var(--background);
+  border: 1px solid var(--muted);
+  border-top: 3px solid var(--teal);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   font-family: Inter, sans-serif;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.07em;
   text-transform: uppercase;
-  color: #0F1117;
+  color: var(--text);
   white-space: nowrap;
-  pointer-events: none;
-  text-shadow:
-    0 0 4px rgba(245,242,236,0.95),
-    0 0 8px rgba(245,242,236,0.95);
-  transform: translate(-50%, -50%);
+  padding: 6px 10px;
+}
+
+.uf-map-nhood-label-tail {
+  position: relative;
+  width: 12px;
+  height: 6px;
+  flex-shrink: 0;
+}
+
+.uf-map-nhood-label-tail::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 7px solid var(--muted);
+}
+
+.uf-map-nhood-label-tail::after {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 1px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid var(--background);
 }
 
 @media (max-width: 800px) {

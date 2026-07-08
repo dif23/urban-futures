@@ -378,12 +378,17 @@ function addNeighborhoodLayer() {
         }
       }).addTo(map);
 
-      // Labels via divIcon — centered with CSS transform
+      // Labels via divIcon — callout box with a bottom tail, centered on the neighborhood
       neighborhoodLabelGroup = L.layerGroup();
       gj.features.forEach(f => {
         const center = L.geoJSON(f).getBounds().getCenter();
         L.marker(center, {
-          icon: L.divIcon({ className: 'uf-map-nhood-label', html: f.properties.name }),
+          icon: L.divIcon({
+            className: 'uf-map-nhood-label',
+            html: `<span class="uf-map-nhood-label-inner"><span class="uf-map-nhood-label-box">${f.properties.name}</span><span class="uf-map-nhood-label-tail"></span></span>`,
+            iconSize: [0, 0],
+            iconAnchor: [0, 0]
+          }),
           interactive: false
         }).addTo(neighborhoodLabelGroup);
       });
