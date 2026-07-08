@@ -311,7 +311,8 @@ function initMap() {
     zoom: Math.round(SITE_CONFIG.mapZoom),
     zoomControl: false,
     minZoom: 9,
-    maxZoom: 16
+    maxZoom: 16,
+    preferCanvas: true
   });
 
   L.control.zoom({ position: 'bottomright' }).addTo(map);
@@ -322,12 +323,15 @@ function initMap() {
     maxZoom: 19
   }).addTo(map);
 
-  // Pre-fetch cloudburst GeoJSON (shared between global overlay and Flushing filter)
+  // Pre-fetch cloudburst GeoJSON (shared between global overlay and per-neighborhood filters).
+  // The source file is two enormous multi-thousand-vertex MultiPolygons (citywide, by flooding
+  // category) — flattening into individual polygons up front keeps both the global render and
+  // the per-neighborhood bbox filtering fast instead of running full polygon math on the whole city.
   fetch(OVERLAY_SOURCES.cloudburst.url)
     .then(r => r.json())
     .then(data => {
-      cloudburst_data = data;
-      overlayLayers['cloudburst'] = L.geoJSON(data, {
+      cloudburst_data = (window.turf) ? turf.flatten(data) : data;
+      overlayLayers['cloudburst'] = L.geoJSON(cloudburst_data, {
         style: {
           color: OVERLAY_SOURCES.cloudburst.color,
           weight: 1, opacity: 0.8,
@@ -651,16 +655,23 @@ function addFilteredCloudburst(cfg, polygon) {
     neighborhoodSpecificLayers[cfg.id].addTo(map);
     return;
   }
-  const bounds = getPolygonBounds(polygon);
+  const nhoodFeature = neighborhoodFeature(polygon);
+  // cloudburst_data is pre-flattened into thousands of small individual polygons (see initMap).
+  // A cheap bbox check first, then boolean-intersects on the (much smaller) remaining set, keeps
+  // this fast — running exact turf.intersect clipping against all of them was taking several
+  // seconds per neighborhood and made the layer feel like it wasn't rendering at all.
+  const nhBbox = nhoodFeature && window.turf ? turf.bbox(nhoodFeature) : null;
   const filtered = {
     type: 'FeatureCollection',
     features: cloudburst_data.features.filter(f => {
-      if (!bounds) return true;
-      try { return bounds.intersects(L.geoJSON(f).getBounds()); }
-      catch (_) { return false; }
+      if (!nhBbox || !window.turf) return true;
+      try {
+        const fb = turf.bbox(f);
+        if (fb[2] < nhBbox[0] || fb[0] > nhBbox[2] || fb[3] < nhBbox[1] || fb[1] > nhBbox[3]) return false;
+        return turf.booleanIntersects(f, nhoodFeature);
+      } catch (_) { return false; }
     })
   };
-  constrainGeoJsonToNeighborhood(filtered, polygon);
   neighborhoodSpecificLayers[cfg.id] = L.geoJSON(filtered, { style: cfg.style }).addTo(map);
 }
 
