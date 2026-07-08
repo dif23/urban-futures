@@ -103,9 +103,9 @@ const LAYER_DESCRIPTIONS = {
     source: 'NYC Open Data – Cool It! NYC 2020 Cooling Sites'
   },
   treeCanopy: {
-    title: 'Street Tree Census',
-    body: 'Street tree census points showing local tree presence, species, and health. This gives tree-equity and urban forestry projects a closer visual match than rain-garden infrastructure alone.',
-    source: 'NYC Parks – 2015 Street Tree Census'
+    title: 'Street Trees',
+    body: 'Live tree inventory points showing local tree presence, species, and condition. This is NYC Parks Forestry\'s continuously updated tree inventory, which covers far more trees than the older one-time 2015 census and gives tree-equity and urban forestry projects a closer visual match than rain-garden infrastructure alone.',
+    source: 'NYC Parks – Forestry Tree Points'
   },
   brownfields: {
     title: 'Brownfield Sites',
@@ -187,11 +187,10 @@ const BASE_NEIGHBORHOOD_LAYER_DEFS = {
     color: '#2F7D32',
     kind: 'point',
     descriptionId: 'treeCanopy',
-    endpoint: 'https://data.cityofnewyork.us/resource/uvpi-gqnh.geojson',
-    latField: 'latitude',
-    lngField: 'longitude',
-    where: "status='Alive'",
-    limit: 1500,
+    endpoint: 'https://data.cityofnewyork.us/resource/hn5i-inap.geojson',
+    geometryField: 'location',
+    where: "tpstructure='Full'",
+    limit: 5000,
     circleOptions: { radius: 3, fillColor: '#2F7D32', color: '#1B5E20', weight: 0.8, opacity: 0.9, fillOpacity: 0.65 }
   },
   brownfields: {
