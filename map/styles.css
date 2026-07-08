@@ -259,8 +259,6 @@
 
 /* ---- Neighborhood project cards ---- */
 .uf-map-nhood-projects {
-  background: var(--background);
-  padding: 20px 24px;
   border-top: 1px solid var(--muted);
 }
 
@@ -268,17 +266,17 @@
 
 .uf-map-nhood-projects-inner {
   display: grid;
-  gap: 16px;
+  gap: 0;
 }
 
 .uf-map-project-card {
   background-color: rgba(100, 185, 196, 0.2);
   border: 1px solid var(--muted);
   border-top: 3px solid var(--teal);
-  padding: 16px 18px;
+  padding: 28px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
 .uf-map-project-card--linked {
@@ -313,7 +311,7 @@
 }
 
 .uf-map-project-title {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
   line-height: 1.25;
   color: var(--text);
