@@ -50,7 +50,7 @@ const LAYER_DESCRIPTIONS = {
   pfirm: {
     title: 'PFIRM 2015 Flood Zones',
     body: 'FEMA\'s Preliminary Flood Insurance Rate Maps show regulatory flood risk zones across New York City, distinguishing between 1% annual chance (100-year) and 0.2% annual chance (500-year) floodplains based on current conditions.',
-    source: 'FEMA / NYC DCP – 2015 Preliminary Flood Insurance Rate Maps'
+    source: 'FEMA – 2015 Preliminary Flood Insurance Rate Maps'
   },
   'flushing-rain-gardens': {
     title: 'Rain Gardens',
@@ -137,30 +137,19 @@ const LAYER_DESCRIPTIONS = {
     body: 'The New York City Housing Authority (NYCHA) is the nation\'s largest public housing landlord, providing affordable housing to hundreds of thousands of low- and moderate-income New Yorkers across the five boroughs. This layer shows the footprints of individual NYCHA housing developments — the building complexes and grounds that make up each community — used as the base layer for CLIM-ALIGN and other public-housing retrofit analysis, since these communities are often disproportionately exposed to climate risk and have historically received less investment in resilience upgrades.',
     source: 'NYC Open Data – NYCHA Public Housing Developments'
   },
-  adultAsthmaHosp: {
-    title: 'Adult Asthma Hospitalizations',
-    body: 'Average annual rate of asthma-related hospitalizations among adults, by neighborhood tabulation area (NTA), 2012–2014. The three NTAs covering Soundview see between 40 and 50 hospitalizations per 10,000 adults per year — darker fill indicates a higher rate.',
-    source: 'NYC DOHMH Environment & Health Data Portal — Asthma hospitalizations (adults), by NTA'
+  childAsthmaED: {
+    title: 'Child Asthma ED Visits',
+    body: 'Emergency department visits for asthma among children ages 5-17, by neighborhood tabulation area (NTA), averaged annually over 2017–2019. The three NTAs covering Soundview see between 240 and 272 visits per 10,000 children per year — darker fill indicates a higher rate.',
+    source: 'NYC DOHMH Environment & Health Data Portal — Asthma ED visits (age 5-17), by NTA'
   },
   underutilizedSites: {
     title: 'Underutilized Sites',
     body: 'Strategic underutilized/redevelopment site candidates identified by Youth Ministries for Peace and Justice (YMPJ) across their Brownfield Opportunity Area study, filtered to the sites that fall within Soundview.',
-    source: 'Strategic Underutilized Sites, YMPJ (2025)'
+    source: 'Underutilized Sites, YMPJ (2025)'
   }
 };
 
 const BASE_NEIGHBORHOOD_LAYER_DEFS = {
-  greenInfra: {
-    label: 'Green Infrastructure',
-    color: '#22c55e',
-    kind: 'point',
-    descriptionId: 'greenInfra',
-    endpoint: 'https://data.cityofnewyork.us/resource/df32-vzax.geojson',
-    geometryField: 'the_geom',
-    where: "(asset_type='Rain Garden' OR asset_type='ROWRG')",
-    limit: 500,
-    circleOptions: { radius: 5, fillColor: '#22c55e', color: '#16a34a', weight: 1.5, opacity: 1, fillOpacity: 0.9 }
-  },
   greenInfraAll: {
     label: 'Green Infrastructure',
     color: '#22c55e',
@@ -168,7 +157,7 @@ const BASE_NEIGHBORHOOD_LAYER_DEFS = {
     descriptionId: 'greenInfra',
     endpoint: 'https://data.cityofnewyork.us/resource/df32-vzax.geojson',
     geometryField: 'the_geom',
-    limit: 500,
+    limit: 1500,
     circleOptions: { radius: 5, fillColor: '#22c55e', color: '#16a34a', weight: 1.5, opacity: 1, fillOpacity: 0.9 }
   },
   cso: {
@@ -281,15 +270,15 @@ const BASE_NEIGHBORHOOD_LAYER_DEFS = {
     limit: 1000,
     style: { color: '#C8373A', weight: 1.5, opacity: 0.9, fillColor: '#C8373A', fillOpacity: 0.28 }
   },
-  adultAsthmaHosp: {
-    label: 'Adult Asthma Hospitalizations',
+  childAsthmaED: {
+    label: 'Child Asthma ED Visits',
     color: '#1E3A8A',
     kind: 'geojson',
-    descriptionId: 'adultAsthmaHosp',
-    fetchUrl: 'data/soundview-adult-asthma-hosp.geojson',
+    descriptionId: 'childAsthmaED',
+    fetchUrl: 'data/soundview-child-asthma-ed.geojson',
     style: (feature) => {
-      const rate = (feature.properties && feature.properties.rate_per_10k_adults) || 40;
-      const t = Math.max(0, Math.min(1, (rate - 40) / (55 - 40)));
+      const rate = (feature.properties && feature.properties.rate_per_10k_children) || 200;
+      const t = Math.max(0, Math.min(1, (rate - 200) / (280 - 200)));
       const lerp = (a, b) => Math.round(a + (b - a) * t);
       const fillColor = `rgb(${lerp(191, 30)}, ${lerp(219, 58)}, ${lerp(254, 138)})`;
       return { color: '#1E3A8A', weight: 1.5, opacity: 0.9, fillColor, fillOpacity: 0.65 };
@@ -317,11 +306,11 @@ const NEIGHBORHOOD_LAYERS = {
     nhoodLayer('east-harlem', 'litterBaskets')
   ],
   soundview: [
-    nhoodLayer('soundview', 'adultAsthmaHosp'),
+    nhoodLayer('soundview', 'childAsthmaED'),
     nhoodLayer('soundview', 'underutilizedSites')
   ],
   flushing: [
-    nhoodLayer('flushing', 'greenInfra'),
+    nhoodLayer('flushing', 'greenInfraAll'),
     nhoodLayer('flushing', 'floodComplaints311'),
     nhoodLayer('flushing', 'csoLocations')
   ],
@@ -343,9 +332,9 @@ const PROJECT_LAYER_MAP = {
   'blue-whales': 'east-harlem--litterBaskets',
   'giant-canoes': 'soundview--underutilizedSites',
   'giant-sequoias': 'soundview--underutilizedSites',
-  'giant-squids': 'soundview--adultAsthmaHosp',
+  'giant-squids': 'soundview--childAsthmaED',
   'gorillas': 'flushing--floodComplaints311',
-  'hadrosaur-footprints': 'flushing--greenInfra',
+  'hadrosaur-footprints': 'flushing--greenInfraAll',
   'king-penguins': 'flushing--csoLocations',
   'komodo-dragons': 'brownsville--fireHydrants',
   'megalodons': 'brownsville--treeCanopy',
