@@ -270,7 +270,6 @@
 
 .uf-map-project-card {
   background-color: rgba(100, 185, 196, 0.2);
-  border: 1px solid var(--muted);
   border-top: 3px solid var(--teal);
   padding: 28px;
   display: flex;
