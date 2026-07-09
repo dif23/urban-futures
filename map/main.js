@@ -69,7 +69,7 @@ const LAYER_DESCRIPTIONS = {
   },
   cloudburst: {
     title: 'Cloudburst Flooding 2080s',
-    body: 'A cloudburst is a sudden downpour that can flood streets and basements. This layer shows NYC DEP\'s Extreme Flood scenario (3.66 inches/hour of rainfall) combined with projected 2080 sea level rise — the most severe of DEP\'s published stormwater flood scenarios. It is important to note that cloudbursts happen in specific locations because of the concentration of rainfall – while one neighborhood may experience flooding, another may not.',
+    body: 'A cloudburst is a sudden downpour that can flood streets and basements. This layer shows NYC DEP\'s Extreme Flood scenario (3.66 inches/hour of rainfall) combined with projected 2080 sea level rise — the most severe of DEP\'s published stormwater flood scenarios. It is important to note that cloudbursts happen in specific locations because of the concentration of rainfall – while one neighborhood may experience flooding, another may not. Shading follows DEP\'s depth-based legend: lighter blue marks shallower predicted flooding (Category 1), darker blue marks deeper predicted flooding (Category 3).',
     source: 'NYC DEP – NYC Stormwater Flood Maps (Extreme Flood, 2080 Sea Level Rise)'
   },
   greenInfra: {
@@ -150,13 +150,6 @@ const LAYER_DESCRIPTIONS = {
 };
 
 const BASE_NEIGHBORHOOD_LAYER_DEFS = {
-  cloudburst: {
-    label: 'Cloudburst Flooding 2080s',
-    color: '#5B8DD9',
-    kind: 'filtered-overlay',
-    descriptionId: 'cloudburst',
-    style: { color: '#5B8DD9', weight: 1, opacity: 0.8, fillColor: '#5B8DD9', fillOpacity: 0.55 }
-  },
   greenInfra: {
     label: 'Green Infrastructure',
     color: '#22c55e',
@@ -416,12 +409,16 @@ function initMap() {
     .then(r => r.json())
     .then(data => {
       cloudburst_data = (window.turf) ? turf.flatten(data) : data;
+      const cloudburstShades = { 1: '#BFDBFE', 2: '#5B8DD9', 3: '#1E3A8A' };
       overlayLayers['cloudburst'] = L.geoJSON(cloudburst_data, {
-        style: {
-          color: OVERLAY_SOURCES.cloudburst.color,
-          weight: 1, opacity: 0.8,
-          fillColor: OVERLAY_SOURCES.cloudburst.color,
-          fillOpacity: OVERLAY_SOURCES.cloudburst.opacity
+        style: (feature) => {
+          const fillColor = cloudburstShades[feature.properties.flooding_category] || OVERLAY_SOURCES.cloudburst.color;
+          return {
+            color: fillColor,
+            weight: 1, opacity: 0.8,
+            fillColor,
+            fillOpacity: OVERLAY_SOURCES.cloudburst.opacity
+          };
         }
       });
     });
@@ -705,11 +702,6 @@ function createBoundedOverlayLayer(cfg, polygon) {
 }
 
 function fetchAndAddNeighborhoodLayer(cfg, polygon) {
-  if (cfg.kind === 'filtered-overlay') {
-    addFilteredCloudburst(cfg, polygon);
-    return;
-  }
-
   if (cfg.kind === 'overlay') {
     if (!neighborhoodSpecificLayers[cfg.id]) {
       neighborhoodSpecificLayers[cfg.id] = createBoundedOverlayLayer(cfg, polygon);
@@ -736,35 +728,6 @@ function fetchAndAddNeighborhoodLayer(cfg, polygon) {
       neighborhoodSpecificLayers[cfg.id].addTo(map);
     })
     .catch(err => console.error(`Neighborhood layer ${cfg.id}:`, err));
-}
-
-function addFilteredCloudburst(cfg, polygon) {
-  if (!cloudburst_data) {
-    setTimeout(() => addFilteredCloudburst(cfg, polygon), 400);
-    return;
-  }
-  if (neighborhoodSpecificLayers[cfg.id]) {
-    neighborhoodSpecificLayers[cfg.id].addTo(map);
-    return;
-  }
-  const nhoodFeature = neighborhoodFeature(polygon);
-  // cloudburst_data is pre-flattened into thousands of small individual polygons (see initMap).
-  // A cheap bbox check first, then boolean-intersects on the (much smaller) remaining set, keeps
-  // this fast — running exact turf.intersect clipping against all of them was taking several
-  // seconds per neighborhood and made the layer feel like it wasn't rendering at all.
-  const nhBbox = nhoodFeature && window.turf ? turf.bbox(nhoodFeature) : null;
-  const filtered = {
-    type: 'FeatureCollection',
-    features: cloudburst_data.features.filter(f => {
-      if (!nhBbox || !window.turf) return true;
-      try {
-        const fb = turf.bbox(f);
-        if (fb[2] < nhBbox[0] || fb[0] > nhBbox[2] || fb[3] < nhBbox[1] || fb[1] > nhBbox[3]) return false;
-        return turf.booleanIntersects(f, nhoodFeature);
-      } catch (_) { return false; }
-    })
-  };
-  neighborhoodSpecificLayers[cfg.id] = L.geoJSON(filtered, { style: cfg.style }).addTo(map);
 }
 
 function removeNeighborhoodLayer(cfg) {
