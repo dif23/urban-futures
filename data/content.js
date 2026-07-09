@@ -6,7 +6,13 @@ const NEIGHBORHOODS = [
     description: "East Harlem faces compounding climate risks from extreme heat and flooding, exacerbated by limited green spaces and significant socioeconomic vulnerability. Teams here examined cooling accessibility, green infrastructure gaps, and sanitation's role in flood resilience.",
     coordinates: [-73.9380, 40.7957],
     color: "#64b9c4",
-    projects: ["african-elephants", "alaskan-brown-bears", "blue-whales"]
+    projects: ["african-elephants", "alaskan-brown-bears", "blue-whales"],
+    partners: [
+      { name: "Manhattan Community Board 11", url: "https://www.cb11m.org/" },
+      { name: "Randall's Island Park Alliance", url: "https://randallsisland.org/" },
+      { name: "Uptown Grand Central", url: "https://uptowngrandcentral.org/" },
+      { name: "East Harlem Community Organizations Active in Disaster (COAD)", url: "https://www.eastharlemcoad.org/" }
+    ]
   },
   {
     id: "soundview",
@@ -15,7 +21,10 @@ const NEIGHBORHOODS = [
     description: "Soundview contends with stormwater flooding and gaps in green infrastructure that leave residents vulnerable during cloudbursts. Teams modeled pluvial floods and assessed heat vulnerability among aging residents, identifying sites for targeted intervention.",
     coordinates: [-73.8730, 40.8170],
     color: "#64b9c4",
-    projects: ["giant-canoes", "giant-sequoias", "giant-squids"]
+    projects: ["giant-canoes", "giant-sequoias", "giant-squids"],
+    partners: [
+      { name: "Youth Ministries for Peace and Justice", url: "https://www.ympj.org/" }
+    ]
   },
   {
     id: "flushing",
@@ -24,7 +33,11 @@ const NEIGHBORHOODS = [
     description: "Flushing Bay and the surrounding Queens neighborhoods face intense stormwater flooding from cloudbursts and limited sewer capacity. Teams developed AI-powered visualization tools, rain garden models, and stormwater capture frameworks to address compounding flood risk.",
     coordinates: [-73.8330, 40.7675],
     color: "#64b9c4",
-    projects: ["gorillas", "hadrosaur-footprints", "king-penguins"]
+    projects: ["gorillas", "hadrosaur-footprints", "king-penguins"],
+    partners: [
+      { name: "Guardians of Flushing Bay", url: "https://www.guardiansofflushingbay.org/" },
+      { name: "Thread Collective", url: "https://threadcollective.com/" }
+    ]
   },
   {
     id: "brownsville",
@@ -33,7 +46,12 @@ const NEIGHBORHOODS = [
     description: "Brownsville sits at the intersection of extreme heat vulnerability and limited access to cooling resources. Teams developed spatial optimization tools for cooling site placement and a climate-aware emergency routing system to improve resilience for this historically underserved community.",
     coordinates: [-73.9124, 40.6635],
     color: "#64b9c4",
-    projects: ["komodo-dragons", "megalodons", "moai-statues"]
+    projects: ["komodo-dragons", "megalodons", "moai-statues"],
+    partners: [
+      { name: "Pitkin Avenue Business Improvement District", url: "https://www.pitkinavenue.nyc/" },
+      { name: "Brooklyn Community Board 16", url: "https://brooklyncb6.cityofnewyork.us/" },
+      { name: "Central Brooklyn EDC", url: "https://cbedc.org/" }
+    ]
   },
   {
     id: "stapleton",
@@ -42,7 +60,11 @@ const NEIGHBORHOODS = [
     description: "Stapleton on Staten Island's North Shore faces persistent flooding driven by topography, aging infrastructure, and rising seas. Teams developed tree-planting simulation tools, improved flood modeling, and community-facing alert systems to build long-term resilience.",
     coordinates: [-74.0776, 40.6280],
     color: "#64b9c4",
-    projects: ["sperm-whales", "stars-of-india", "titanosaurs"]
+    projects: ["sperm-whales", "stars-of-india", "titanosaurs"],
+    partners: [
+      { name: "Staten Island Urban Center", url: "https://www.siurbancenter.org/" },
+      { name: "Protectors of Pine Oaks Woods", url: "https://www.siprotectors.org/" }
+    ]
   }
 ];
 

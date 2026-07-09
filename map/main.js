@@ -460,7 +460,7 @@ function addNeighborhoodLayer() {
         const marker = L.marker(center, {
           icon: L.divIcon({
             className: 'uf-map-nhood-label',
-            html: `<span class="uf-map-nhood-label-inner"><span class="uf-map-nhood-label-box">${f.properties.name}</span><span class="uf-map-nhood-label-tail"></span></span>`,
+            html: `<span class="uf-map-nhood-label-inner"><span class="uf-map-nhood-label-box">${(NEIGHBORHOODS.find(n => n.id === f.properties.id) || {}).name || f.properties.name}</span><span class="uf-map-nhood-label-tail"></span></span>`,
             iconSize: [0, 0],
             iconAnchor: [0, 0]
           }),
@@ -810,6 +810,17 @@ function showNeighborhoodPanel(neighborhoodId) {
   document.getElementById('uf-info-name').textContent = nhood.name;
   document.getElementById('uf-info-borough').textContent = nhood.borough;
   document.getElementById('uf-info-desc').textContent = nhood.description;
+
+  const partnersEl = document.getElementById('uf-info-partners');
+  if (nhood.partners && nhood.partners.length) {
+    const links = nhood.partners
+      .map(p => `<a href="${p.url}" target="_blank" rel="noopener" style="color: var(--text);">${p.name}</a>`)
+      .join(', ');
+    partnersEl.innerHTML = `The ${nhood.name} neighborhood partners included: ${links}.`;
+  } else {
+    partnersEl.innerHTML = '';
+  }
+
   document.getElementById('uf-nhood-info').removeAttribute('hidden');
   document.getElementById('uf-map-back-row').removeAttribute('hidden');
   document.getElementById('uf-map-neighborhood-hint').setAttribute('hidden', '');
