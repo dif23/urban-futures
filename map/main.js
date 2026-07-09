@@ -411,11 +411,11 @@ function initMap() {
       cloudburst_data = (window.turf) ? turf.flatten(data) : data;
       const cloudburstShades = { 1: '#BFDBFE', 2: '#5B8DD9', 3: '#1E3A8A' };
       overlayLayers['cloudburst'] = L.geoJSON(cloudburst_data, {
+        smoothFactor: 0.25,
         style: (feature) => {
           const fillColor = cloudburstShades[feature.properties.flooding_category] || OVERLAY_SOURCES.cloudburst.color;
           return {
-            color: fillColor,
-            weight: 1, opacity: 0.8,
+            stroke: false,
             fillColor,
             fillOpacity: OVERLAY_SOURCES.cloudburst.opacity
           };
