@@ -19,7 +19,7 @@ const NEIGHBORHOODS = [
   },
   {
     id: "flushing",
-    name: "Flushing / Queens",
+    name: "Flushing",
     borough: "Queens",
     description: "Flushing Bay and the surrounding Queens neighborhoods face intense stormwater flooding from cloudbursts and limited sewer capacity. Teams developed AI-powered visualization tools, rain garden models, and stormwater capture frameworks to address compounding flood risk.",
     coordinates: [-73.8330, 40.7675],
