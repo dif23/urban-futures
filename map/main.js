@@ -17,9 +17,9 @@ const OVERLAY_SOURCES = {
   },
   heat: {
     kind: 'raster',
-    url: `${LEAP_SOURCE_RAW}/data/tiles/heat/{z}/{x}/{y}.png`,
-    tms: true, opacity: 0.75,
-    attribution: 'Mean Surface Temp 2020-22 – NYC City Council'
+    url: 'data/tiles/heat/{z}/{x}/{y}.png',
+    tms: false, opacity: 0.75,
+    attribution: 'Mean Surface Temp Deviation 2020-22 – NYC City Council'
   },
   pfirm: {
     kind: 'raster',
@@ -44,7 +44,7 @@ const OVERLAY_SOURCES = {
 const LAYER_DESCRIPTIONS = {
   heat: {
     title: 'Extreme Heat',
-    body: 'Of all four climate risks, the most injuries and fatalities are caused by extreme heat. Extreme heat is defined as three or more consecutive days when the temperature reaches 90 degrees fahrenheit or more. This map from the New York City Council shows average surface temperatures on a summer day. Where the map is red, it will be hotter than average by 1 to 8 degrees fahrenheit.',
+    body: 'Of all four climate risks, the most injuries and fatalities are caused by extreme heat. Extreme heat is defined as three or more consecutive days when the temperature reaches 90 degrees fahrenheit or more. This map from the New York City Council shows average surface temperatures on a summer day, relative to the citywide average. Red areas are hotter than average by 1 to 8 degrees fahrenheit; blue areas are cooler than average by 1 to 8 degrees fahrenheit.',
     source: 'New York City Council Data Science Team'
   },
   pfirm: {
@@ -813,10 +813,10 @@ function showNeighborhoodPanel(neighborhoodId) {
 
   const partnersEl = document.getElementById('uf-info-partners');
   if (nhood.partners && nhood.partners.length) {
-    const links = nhood.partners
-      .map(p => `<a href="${p.url}" target="_blank" rel="noopener" style="color: var(--text);">${p.name}</a>`)
-      .join(', ');
-    partnersEl.innerHTML = `The ${nhood.name} neighborhood partners included: ${links}.`;
+    const items = nhood.partners
+      .map(p => `<li><a href="${p.url}" target="_blank" rel="noopener" style="color: var(--text);">${p.name}</a></li>`)
+      .join('');
+    partnersEl.innerHTML = `The ${nhood.name} neighborhood partners included:<ul style="margin: 8px 0 0; padding-left: 20px;">${items}</ul>`;
   } else {
     partnersEl.innerHTML = '';
   }
