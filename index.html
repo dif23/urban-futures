@@ -554,7 +554,12 @@
 
                 <div style="background: var(--hinted); padding: 24px; margin-bottom: 24px; font-size: 15px; color: var(--secondary); text-align: center; letter-spacing: 0.07em; text-transform: uppercase;">Video TK</div>
 
-                <div style="border: 1px solid var(--muted); padding: 24px; margin-bottom: 24px; font-size: 15px; color: var(--secondary); text-align: center; letter-spacing: 0.07em; text-transform: uppercase;">Jupyter Notebook TK</div>
+                <details style="margin-bottom: 24px; border: 1px solid var(--muted);">
+                  <summary style="padding: 16px; font-size: 16px; letter-spacing: 0.01em; cursor: pointer; list-style: none; display: flex; align-items: center; gap: 8px; color: var(--secondary);">
+                    <span style="font-size: 20px; line-height: 1;">+</span> View the Jupyter Notebook for this project
+                  </summary>
+                  <iframe src="311_2025_sanitation_modeling.html" style="width: 100%; height: 600px; border: none; border-top: 1px solid var(--muted); display: block;"></iframe>
+                </details>
 
                 <div style="font-size: 12px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--secondary); margin-bottom: 12px;">Team Members</div>
                 <ul style="font-size: 15px; line-height: 1.6; margin: 0; padding-left: 20px; color: var(--text);">
@@ -579,11 +584,18 @@
               <div style="padding: 0 24px 24px 24px;">
                 <p style="font-size: 16px; line-height: 1.5; color: var(--text); margin: 0 0 24px 0;">This project addresses extreme heat in Brownsville, Brooklyn, NYC's most heat-vulnerable neighborhood, where cooling resources like spray showers, fountains, and pools already exist but are scattered across separate, hard-to-use city datasets, leaving residents without a clear way to find relief during heat waves. We combined this scattered data into a single, easy-to-use map showing heat risk, water features, and tree cover across the city. Using that map, we identified fire hydrants as an untapped cooling resource: adding simple, low-cost spray caps that can be quickly installed and removed to cool down hot, asphalt-heavy streets. To decide where new spray caps would help most, we built a model that finds hydrant locations minimizing how far any resident has to walk to reach a cooling source. Applied to Brownsville, this pinpointed the best hydrants for spray caps, and the same approach scaled well across the whole city. Ultimately, the lack of visibility into existing cooling resources is itself a climate risk, one our map and recommendations, including real-time spray cap tracking and a piloted "2-in-1" public fountain, aim to help solve.</p>
 
+                <p style="font-size: 15px; color: var(--secondary); margin: 0 0 24px 0;">GitHub: <a href="https://github.com/jhbravo/earthcmap/tree/main" style="color: var(--secondary);">github.com/jhbravo/earthcmap</a></p>
+
                 <video style="width: 100%; display: block; margin-bottom: 24px;" controls preload="metadata">
                   <source src="spraycaps-demo.mp4" type="video/mp4"/>
                 </video>
 
-                <div style="border: 1px solid var(--muted); padding: 24px; margin-bottom: 24px; font-size: 15px; color: var(--secondary); text-align: center; letter-spacing: 0.07em; text-transform: uppercase;">Jupyter Notebook TK</div>
+                <details style="margin-bottom: 24px; border: 1px solid var(--muted);">
+                  <summary style="padding: 16px; font-size: 16px; letter-spacing: 0.01em; cursor: pointer; list-style: none; display: flex; align-items: center; gap: 8px; color: var(--secondary);">
+                    <span style="font-size: 20px; line-height: 1;">+</span> View the Jupyter Notebook for this project
+                  </summary>
+                  <iframe src="nyc_hack_02.html" style="width: 100%; height: 600px; border: none; border-top: 1px solid var(--muted); display: block;"></iframe>
+                </details>
 
                 <div style="font-size: 12px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--secondary); margin-bottom: 12px;">Team Members</div>
                 <ul style="font-size: 15px; line-height: 1.6; margin: 0; padding-left: 20px; color: var(--text);">
@@ -638,7 +650,7 @@
                 </div>
               </summary>
               <div style="padding: 0 24px 24px 24px;">
-                <p style="font-size: 16px; line-height: 1.5; color: var(--text); margin: 0 0 24px 0;">Much of New York City's public housing was built for a climate that no longer exists - cooler, more stable, more predictable. As temperatures rise and extreme weather becomes routine, these buildings are performing in ways they were never designed for. In neighborhoods like Brownsville, this mismatch is visible: heat lingers indoors, aging systems strain under stress, and maintenance issues compound during extreme conditions. The impacts fall hardest on residents who spend more time at home or have fewer options during heat waves and power outages. Community partners told us these conditions are well-known locally but difficult to communicate in decision-making spaces. Data about housing, climate, health, and maintenance exists across city agencies—but it's fragmented and hard to translate into action. This tool brings those pieces together. By combining housing conditions with climate trends, health indicators, and service complaints, we make visible how older public housing interacts with today's climate—and provide a foundation for advocacy, prioritization, and investment.</p>
+                <p style="font-size: 16px; line-height: 1.5; color: var(--text); margin: 0 0 24px 0;">Much of New York City's public housing was built for a climate that no longer exists - cooler, more stable, more predictable. As temperatures rise and extreme weather becomes routine, these buildings are performing in ways they were never designed for. In neighborhoods like Brownsville, this mismatch is visible: heat lingers indoors, aging systems strain under stress, and maintenance issues compound during extreme conditions. The impacts fall hardest on residents who spend more time at home or have fewer options during heat waves and power outages. Community partners told us these conditions are well-known locally but difficult to communicate in decision-making spaces. Data about housing, climate, health, and maintenance exists across city agencies, but it's fragmented and hard to translate into action. This tool brings those pieces together. By combining housing conditions with climate trends, health indicators, and service complaints, we make visible how older public housing interacts with today's climate—and provide a foundation for advocacy, prioritization, and investment.</p>
 
                 <video style="width: 100%; display: block; margin-bottom: 24px;" controls preload="metadata">
                   <source src="climalign-demo.mp4" type="video/mp4"/>
