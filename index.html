@@ -25,6 +25,7 @@
   * { box-sizing: border-box; margin: 0; min-width: 0; }
 
   html {
+    scroll-behavior: smooth;
     font-family: Inter, sans-serif;
     line-height: 1.35;
     font-weight: 400;
@@ -327,6 +328,37 @@
 
         <div class="lede">
           In January 2026, the "Urban Futures: Co-Creating Climate Resilience in New York City" hackathon brought together data scientists, climate modellers, and New York City neighborhood leaders at the American Museum of Natural History. This three-day event explored how open data and climate modelling can address neighborhood-level impacts of climate change.
+
+          <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 24px;">
+            <a href="#section-introduction" style="background: white; border-top: 3px solid var(--teal); padding: 20px 24px; cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 16px;">
+              <span style="font-size: 24px; line-height: 1; color: var(--teal); flex-shrink: 0;">+</span>
+              <span style="font-size: 18px; font-weight: 400; color: var(--text);">Introduction</span>
+            </a>
+            <a href="#section-collaboration-phases" style="background: white; border-top: 3px solid var(--teal); padding: 20px 24px; cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 16px;">
+              <span style="font-size: 24px; line-height: 1; color: var(--teal); flex-shrink: 0;">+</span>
+              <span style="font-size: 18px; font-weight: 400; color: var(--text);">Collaboration Phases: Overview</span>
+            </a>
+            <a href="#section-phase-1" style="background: white; border-top: 3px solid var(--teal); padding: 20px 24px; cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 16px;">
+              <span style="font-size: 24px; line-height: 1; color: var(--teal); flex-shrink: 0;">+</span>
+              <span style="font-size: 18px; font-weight: 400; color: var(--text);">Phase 1: Planning</span>
+            </a>
+            <a href="#section-phase-2" style="background: white; border-top: 3px solid var(--teal); padding: 20px 24px; cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 16px;">
+              <span style="font-size: 24px; line-height: 1; color: var(--teal); flex-shrink: 0;">+</span>
+              <span style="font-size: 18px; font-weight: 400; color: var(--text);">Phase 2: Creating</span>
+            </a>
+            <a href="#section-phase-3" style="background: white; border-top: 3px solid var(--teal); padding: 20px 24px; cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 16px;">
+              <span style="font-size: 24px; line-height: 1; color: var(--teal); flex-shrink: 0;">+</span>
+              <span style="font-size: 18px; font-weight: 400; color: var(--text);">Phase 3: Implementing</span>
+            </a>
+            <a href="#section-conclusions" style="background: white; border-top: 3px solid var(--teal); padding: 20px 24px; cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 16px;">
+              <span style="font-size: 24px; line-height: 1; color: var(--teal); flex-shrink: 0;">+</span>
+              <span style="font-size: 18px; font-weight: 400; color: var(--text);">Conclusions</span>
+            </a>
+            <a href="#section-annex" style="background: white; border-top: 3px solid var(--teal); padding: 20px 24px; cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 16px;">
+              <span style="font-size: 24px; line-height: 1; color: var(--teal); flex-shrink: 0;">+</span>
+              <span style="font-size: 18px; font-weight: 400; color: var(--text);">Annex: Data Resources + Partner Information</span>
+            </a>
+          </div>
         </div>
 
         <div style="display: flex; gap: 16px; margin: 32px 0 8px;">
@@ -339,7 +371,7 @@
         </div>
         <p style="font-size: 14px; color: var(--secondary); font-style: italic; margin: 0 0 32px;">Final presentations in the Hall of the Universe on the third day of "Urban Futures."</p>
 
-        <p>In January 2026, <strong style="color: var(--leap-teal);">“Urban Futures: Co-Creating Climate Resilience in New York City,”</strong> brought together data scientists, climate modellers, creative technologists, and New York City neighborhood leaders at the American Museum of Natural History for a three-day hackathon. The event was organized by a group of institutional and professional partners interested in bridging the gap between available climate data and neighborhood-based climate resilience planning. “Urban Futures” explored the uses of open data and climate modelling for addressing neighborhood-level impacts of climate change in New York City.</p>
+        <p id="section-introduction">In January 2026, <strong style="color: var(--leap-teal);">“Urban Futures: Co-Creating Climate Resilience in New York City,”</strong> brought together data scientists, climate modellers, creative technologists, and New York City neighborhood leaders at the American Museum of Natural History for a three-day hackathon. The event was organized by a group of institutional and professional partners interested in bridging the gap between available climate data and neighborhood-based climate resilience planning. “Urban Futures” explored the uses of open data and climate modelling for addressing neighborhood-level impacts of climate change in New York City.</p>
 
         <p>In designing a hackathon focused on leveraging data to design neighborhood-scale solutions, the organizing team recognized the importance of <strong style="color: var(--leap-teal);">integrating and centering community perspectives and voices</strong>. Five groups of leaders from five different New York City communities were invited to participate in the planning of "Urban Futures." These neighborhood leaders played important roles in the hackathon by providing real-world context for the event, framing the hackathon challenges, and supporting teams throughout with data, project feedback, and collaborative ideation.</p>
 
@@ -352,7 +384,7 @@
         <p>Further, a background in computer science or data science was not an explicit requirement for other hackathon participants. Individuals from fields such as architecture, urban planning, and environmental science also joined the hackathon. The <strong style="color: var(--leap-teal);">variety of disciplines and forms of expertise</strong> resulted in projects that took into account the communities' built environments and socioeconomic realities as well as direct impacts of climate change. While neighborhood leaders gained exposure to new digital resources and tools for assessing climate risk and developing solutions, hackathon participants had the opportunity to learn how their skills could apply to challenges facing real New York City neighborhoods.</p>
 
         <!-- ── Collaboration Phases ── -->
-        <h2>Collaboration Phases</h2>
+        <h2 id="section-collaboration-phases">Collaboration Phases</h2>
 
         <div style="display: flex; gap: 16px; margin: 32px 0 8px;">
           <figure style="margin: 0; flex: 1;">
@@ -374,7 +406,7 @@
         </div>
 
         <!-- ── Phase 1 ── -->
-        <div style="margin-top: 48px;">
+        <div id="section-phase-1" style="margin-top: 48px;">
           <span class="phase-badge">Phase 1</span>
           <h2 style="margin-top: 8px;">Planning</h2>
         </div>
@@ -512,7 +544,7 @@
         <p>At the same time that planning decisions were guided by the prioritization of community perspectives, each organizing partner retained its own goals for the event. The Museum, for example, was interested in developing public programming  to engage new audiences within the city. LEAP and NVIDIA wanted to gauge accessibility to and utility of downscaled climate data and climate-related agentic AI tools for real-world applications and broader audiences. One of LEAP’s goals, in particular, is knowledge transfer, and so LEAP was eager to engage a broad audience with the climate modelling that is at the heart of their scientific mission.</p>
 
         <!-- ── Phase 2 ── -->
-        <div style="margin-top: 48px;">
+        <div id="section-phase-2" style="margin-top: 48px;">
           <span class="phase-badge">Phase 2</span>
           <h2 style="margin-top: 8px;">Creating</h2>
         </div>
@@ -706,7 +738,7 @@
         <!-- Pull quote 1 goes after hackathon paragraph -->
 
         <!-- ── Phase 3 ── -->
-        <div style="margin-top: 48px;">
+        <div id="section-phase-3" style="margin-top: 48px;">
           <span class="phase-badge">Phase 3</span>
           <h2 style="margin-top: 8px;">Implementing</h2>
         </div>
@@ -733,7 +765,7 @@
         <!-- Pull quote 2 goes after communities paragraph -->
 
         <!-- ── Conclusions ── -->
-        <h2>Conclusions</h2>
+        <h2 id="section-conclusions">Conclusions</h2>
 
         <div style="display: flex; gap: 16px; margin: 32px 0 8px;">
           <figure style="margin: 0; flex: 1;">
@@ -763,7 +795,7 @@
         </div>
 
         <!-- ── Annex ── -->
-        <div style="background-color: var(--hinted); padding: 32px; margin: 32px 0;">
+        <div id="section-annex" style="background-color: var(--hinted); padding: 32px; margin: 32px 0;">
           <div style="font-size: 18px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--secondary); margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--muted);">Annex</div>
           <div style="display: flex; flex-direction: column; gap: 12px;">
 
