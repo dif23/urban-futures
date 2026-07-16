@@ -491,6 +491,17 @@
 
         <script src="data/content.js"></script>
         <script src="map/main.js"></script>
+        <script>
+          function playYouTube(container, videoId) {
+            const iframe = document.createElement('iframe');
+            iframe.src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1';
+            iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:none;';
+            iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+            iframe.allowFullscreen = true;
+            container.innerHTML = '';
+            container.appendChild(iframe);
+          }
+        </script>
 
         <p>One key planning decision for “Urban Futures” was to define the challenges given to participating teams. The organizers worked with the neighborhood leaders in the months preceding the hackathon to develop a series of “prompts” based on <strong style="color: var(--leap-teal);">the lived experience of climate risk</strong> in each community. The prompts would be presented as starting points in the hackathon, but not as inflexibly defined problems. Rather, they provided <strong style="color: var(--leap-teal);">one dimension of the “scaffold” – that of community knowledge</strong> – as well as inspiration for final projects.</p>
 
@@ -555,8 +566,10 @@
 
                 <p style="font-size: 15px; color: var(--secondary); margin: 0 0 24px 0;">GitHub: <a href="https://github.com/archykool/CatchPandasBasin" style="color: var(--secondary);">github.com/archykool/CatchPandasBasin</a></p>
 
-                <div style="position: relative; width: 100%; padding-bottom: 56.25%; margin-bottom: 24px;">
-                  <iframe src="https://www.youtube.com/embed/vUBNY-ZRqVQ" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                <div style="position: relative; width: 100%; padding-bottom: 56.25%; margin-bottom: 24px; cursor: pointer; background: #000 center/cover no-repeat url('https://img.youtube.com/vi/vUBNY-ZRqVQ/maxresdefault.jpg');" onclick="playYouTube(this, 'vUBNY-ZRqVQ')">
+                  <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 68px; height: 48px; background: rgba(0,0,0,0.75); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                    <div style="width: 0; height: 0; border-top: 12px solid transparent; border-bottom: 12px solid transparent; border-left: 20px solid white; margin-left: 4px;"></div>
+                  </div>
                 </div>
 
                 <details style="margin-bottom: 24px; border: 1px solid var(--muted);">
@@ -591,8 +604,10 @@
 
                 <p style="font-size: 15px; color: var(--secondary); margin: 0 0 24px 0;">GitHub: <a href="https://github.com/jhbravo/earthcmap/tree/main" style="color: var(--secondary);">github.com/jhbravo/earthcmap</a></p>
 
-                <div style="position: relative; width: 100%; padding-bottom: 56.25%; margin-bottom: 24px;">
-                  <iframe src="https://www.youtube.com/embed/qb3XgKx9i6E" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                <div style="position: relative; width: 100%; padding-bottom: 56.25%; margin-bottom: 24px; cursor: pointer; background: #000 center/cover no-repeat url('https://img.youtube.com/vi/qb3XgKx9i6E/maxresdefault.jpg');" onclick="playYouTube(this, 'qb3XgKx9i6E')">
+                  <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 68px; height: 48px; background: rgba(0,0,0,0.75); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                    <div style="width: 0; height: 0; border-top: 12px solid transparent; border-bottom: 12px solid transparent; border-left: 20px solid white; margin-left: 4px;"></div>
+                  </div>
                 </div>
 
                 <details style="margin-bottom: 24px; border: 1px solid var(--muted);">
@@ -624,8 +639,10 @@
               </summary>
               <div style="padding: 0 24px 24px 24px;">
                 <p style="font-size: 16px; line-height: 1.5; color: var(--text); margin: 0 0 24px 0;">OUR-ERA is a climate-aware pedestrian routing assistant built for Brownsville, Brooklyn, NYC's highest heat-vulnerability neighborhood and a walking-dependent, majority-NYCHA community. The system accepts natural-language queries and returns optimized walking routes to emergency services, healthcare, cooling centers, and community resources using a real street network with climate risk embedded in every edge. Flood risk (FEMA stormwater maps), heat vulnerability index, air quality, shade, and grade penalties are combined into a per-segment weight, so the routing engine favors safe paths over short ones when conditions are dangerous. A local large language model translates plain language (including non-English queries) into structured routing calls, keeping all computation offline and private. The network covers 7,600 nodes and surfaces over 1,200 points of interest across Brownsville, with four route variants: shortest, flattest, balanced, and climate-safest.</p>
-                <div style="position: relative; width: 100%; padding-bottom: 56.25%; margin-bottom: 24px;">
-                  <iframe src="https://www.youtube.com/embed/iJf_wRvb4MI" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                <div style="position: relative; width: 100%; padding-bottom: 56.25%; margin-bottom: 24px; cursor: pointer; background: #000 center/cover no-repeat url('https://img.youtube.com/vi/iJf_wRvb4MI/maxresdefault.jpg');" onclick="playYouTube(this, 'iJf_wRvb4MI')">
+                  <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 68px; height: 48px; background: rgba(0,0,0,0.75); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                    <div style="width: 0; height: 0; border-top: 12px solid transparent; border-bottom: 12px solid transparent; border-left: 20px solid white; margin-left: 4px;"></div>
+                  </div>
                 </div>
                 <details style="margin-bottom: 24px; border: 1px solid var(--muted);">
                   <summary style="padding: 16px; font-size: 16px; letter-spacing: 0.01em; cursor: pointer; list-style: none; display: flex; align-items: center; gap: 8px; color: var(--secondary);">
@@ -659,8 +676,10 @@
 
                 <p style="font-size: 15px; color: var(--secondary); margin: 0 0 24px 0;">GitHub: <a href="https://github.com/kelseydoubleu/climalign/tree/main" style="color: var(--secondary);">github.com/kelseydoubleu/climalign</a>, <a href="https://github.com/gmilly/moai_statues/tree/main" style="color: var(--secondary);">github.com/gmilly/moai_statues</a></p>
 
-                <div style="position: relative; width: 100%; padding-bottom: 56.25%; margin-bottom: 24px;">
-                  <iframe src="https://www.youtube.com/embed/-hM5Jr9dCII" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                <div style="position: relative; width: 100%; padding-bottom: 56.25%; margin-bottom: 24px; cursor: pointer; background: #000 center/cover no-repeat url('https://img.youtube.com/vi/-hM5Jr9dCII/maxresdefault.jpg');" onclick="playYouTube(this, '-hM5Jr9dCII')">
+                  <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 68px; height: 48px; background: rgba(0,0,0,0.75); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                    <div style="width: 0; height: 0; border-top: 12px solid transparent; border-bottom: 12px solid transparent; border-left: 20px solid white; margin-left: 4px;"></div>
+                  </div>
                 </div>
 
                 <details style="margin-bottom: 24px; border: 1px solid var(--muted);">
