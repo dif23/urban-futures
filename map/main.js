@@ -213,7 +213,7 @@ const BASE_NEIGHBORHOOD_LAYER_DEFS = {
   },
   surge2080: {
     label: 'Coastal Surge 2080s',
-    color: '#0A3F6B',
+    color: '#73DFFF',
     kind: 'overlay',
     overlayId: 'surge2080',
     descriptionId: 'surge2080'
@@ -743,7 +743,16 @@ function setLayerDescriptionVisible(layerId, visible) {
     block.className = 'uf-map-layer-desc-block';
     block.dataset.layer = layerId;
     block.innerHTML = `<p class="uf-map-ldb-body"><span class="uf-map-ldb-title">${desc.title}:</span> ${desc.body}</p><p class="uf-map-ldb-source">Source: ${desc.source}</p>`;
-    container.appendChild(block);
+
+    const legendOrder = Array.from(document.querySelectorAll('.uf-map-controls [data-layer]')).map(el => el.dataset.layer);
+    const targetIndex = legendOrder.indexOf(layerId);
+    const nextBlock = Array.from(container.children).find(child => {
+      const idx = legendOrder.indexOf(child.dataset.layer);
+      return idx === -1 || idx > targetIndex;
+    });
+    if (nextBlock) container.insertBefore(block, nextBlock);
+    else container.appendChild(block);
+
     container.removeAttribute('hidden');
   } else {
     const block = container.querySelector(`.uf-map-layer-desc-block[data-layer="${layerId}"]`);
